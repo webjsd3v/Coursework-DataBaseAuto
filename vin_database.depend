@@ -1,0 +1,417 @@
+# depslib dependency file v1.0
+1496964190 source:c:\users\intelinside\documents\c\vin_database\main.c
+	<locale.h>
+	"global_va.h"
+	"./functions/functions.h"
+	"./gui/gui_functions.h"
+	"main_struct.h"
+	"gui_structs.h"
+	"gui_menu.h"
+	"./functions/menu.h"
+
+1495655332 c:\users\intelinside\documents\c\vin_database\con_display.h
+
+1495660978 c:\users\intelinside\documents\c\vin_database\con_search.h
+
+1495652469 c:\users\intelinside\documents\c\vin_database\con_create.h
+
+1495226346 c:\users\intelinside\documents\c\vin_database\con_delete.h
+
+1495650094 c:\users\intelinside\documents\c\vin_database\con_tools.h
+
+1494797378 c:\users\intelinside\documents\c\vin_database\con_help.h
+
+1495493159 c:\users\intelinside\documents\c\vin_database\con_sort.h
+
+1495502804 c:\users\intelinside\documents\c\vin_database\con_edit.h
+
+1495665892 c:\users\intelinside\documents\c\vin_database\systemtools.h
+
+1496966410 c:\users\intelinside\documents\c\vin_database\gui_menu.h
+
+1215968896 d:\bin\pdcurs34\\panel.h
+	<curses.h>
+
+1216145605 d:\bin\pdcurs34\\curses.h
+	<stdarg.h>
+	<stddef.h>
+	<stdio.h>
+	<wchar.h>
+
+1496963750 source:c:\users\intelinside\documents\c\vin_database\functions\printlog.c
+	"printlog.h"
+
+1496355302 c:\users\intelinside\documents\c\vin_database\functions\printlog.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../static_lang.h"
+	"../extern_va.h"
+	<stdarg.h>
+
+1496027394 c:\users\intelinside\documents\c\vin_database\functions\functions.h
+	"create.h"
+	"con_display.h"
+	"con_help.h"
+	"misc.h"
+	"printlog.h"
+	"unist.h"
+	"struct_tools.h"
+	"search.h"
+	"delete.h"
+	"edit.h"
+	"sort.h"
+	"save.h"
+	"load.h"
+
+1496966071 c:\users\intelinside\documents\c\vin_database\global_va.h
+
+1496335292 c:\users\intelinside\documents\c\vin_database\functions\create.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"misc.h"
+	"printlog.h"
+	"../main_struct.h"
+	"../extern_va.h"
+	"struct_tools.h"
+	"../static_lang.h"
+
+1496962061 source:c:\users\intelinside\documents\c\vin_database\functions\create.c
+	"create.h"
+
+1496332211 c:\users\intelinside\documents\c\vin_database\extern_va.h
+
+1496331297 c:\users\intelinside\documents\c\vin_database\functions\con_help.h
+	<stdio.h>
+	"printlog.h"
+	"../extern_va.h"
+
+1215968896 d:\bin\pdcurs34\panel.h
+	<curses.h>
+
+1216145605 d:\bin\pdcurs34\curses.h
+	<stdarg.h>
+	<stddef.h>
+	<stdio.h>
+	<wchar.h>
+
+1496960428 source:c:\users\intelinside\documents\c\vin_database\functions\con_help.c
+	"con_help.h"
+
+1495657849 source:c:\users\intelinside\documents\c\vin_database\functions\misc.c
+	"misc.h"
+
+1496329329 c:\users\intelinside\documents\c\vin_database\functions\misc.h
+	<stdio.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+
+1496357331 c:\users\intelinside\documents\c\vin_database\functions\unist.h
+	<string.h>
+	"printlog.h"
+	"con_help.h"
+	"misc.h"
+	"../static_lang.h"
+	<getopt.h>
+
+1496357486 source:c:\users\intelinside\documents\c\vin_database\functions\unist.c
+	"unist.h"
+
+1496960483 source:c:\users\intelinside\documents\c\vin_database\functions\con_display.c
+	"con_display.h"
+
+1496327523 c:\users\intelinside\documents\c\vin_database\functions\con_display.h
+	<stdio.h>
+	"printlog.h"
+	<string.h>
+	"misc.h"
+	<stdlib.h>
+	"../extern_va.h"
+	"../main_struct.h"
+	"../static_lang.h"
+
+1495849846 c:\users\intelinside\documents\c\vin_database\main_struct.h
+
+1496356939 c:\users\intelinside\documents\c\vin_database\functions\struct_tools.h
+	"../extern_va.h"
+	<string.h>
+	<stdio.h>
+	"../main_struct.h"
+	"printlog.h"
+	<stdlib.h>
+	"../static_lang.h"
+
+1496964410 source:c:\users\intelinside\documents\c\vin_database\functions\struct_tools.c
+	"struct_tools.h"
+
+1496963889 source:c:\users\intelinside\documents\c\vin_database\functions\search.c
+	"search.h"
+
+1496355555 c:\users\intelinside\documents\c\vin_database\functions\search.h
+	"../extern_va.h"
+	<string.h>
+	<stdio.h>
+	"../main_struct.h"
+	"printlog.h"
+	<stdlib.h>
+	"struct_tools.h"
+	"misc.h"
+	"../static_lang.h"
+
+1496962208 source:c:\users\intelinside\documents\c\vin_database\functions\delete.c
+	"delete.h"
+
+1496341481 c:\users\intelinside\documents\c\vin_database\functions\delete.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"printlog.h"
+	"misc.h"
+	"../main_struct.h"
+	"../extern_va.h"
+	"struct_tools.h"
+	"../static_lang.h"
+
+1496962725 source:c:\users\intelinside\documents\c\vin_database\functions\edit.c
+	"edit.h"
+
+1496341494 c:\users\intelinside\documents\c\vin_database\functions\edit.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"printlog.h"
+	"misc.h"
+	"../main_struct.h"
+	"struct_tools.h"
+	"../extern_va.h"
+	"../static_lang.h"
+
+1496963936 source:c:\users\intelinside\documents\c\vin_database\functions\sort.c
+	"sort.h"
+
+1496355890 c:\users\intelinside\documents\c\vin_database\functions\sort.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"misc.h"
+	"printlog.h"
+	"con_display.h"
+	"../main_struct.h"
+	"struct_tools.h"
+	"../extern_va.h"
+	"../static_lang.h"
+
+1496355330 c:\users\intelinside\documents\c\vin_database\functions\save.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"printlog.h"
+	"../main_struct.h"
+	"../extern_va.h"
+	"struct_tools.h"
+	"misc.h"
+	"../static_lang.h"
+
+1496355319 c:\users\intelinside\documents\c\vin_database\functions\load.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"printlog.h"
+	"../main_struct.h"
+	"../extern_va.h"
+	"create.h"
+	<unistd.h>
+	"../static_lang.h"
+
+1496963541 source:c:\users\intelinside\documents\c\vin_database\functions\load.c
+	"load.h"
+
+1496355225 source:c:\users\intelinside\documents\c\vin_database\functions\save.c
+	"save.h"
+
+1496609934 c:\users\intelinside\documents\c\vin_database\functions\menu.h
+
+1496027456 c:\users\intelinside\documents\c\vin_database\gui\gui_functions.h
+	"dir_tools.h"
+	"gui_settings.h"
+	"gui_sysmsg.h"
+	"gui_tools.h"
+	"gui_edit.h"
+	"gui_load.h"
+	"gui_reset.h"
+	"gui_debug.h"
+	"gui_create.h"
+	"gui_save.h"
+	"gui_sort.h"
+	"gui_list.h"
+	"gui_search.h"
+
+1495828704 c:\users\intelinside\documents\c\vin_database\gui\dir_tools.h
+	<dirent.h>
+	<stdlib.h>
+
+1496964494 source:c:\users\intelinside\documents\c\vin_database\gui\dir_tools.c
+	"dir_tools.h"
+
+1496541590 source:c:\users\intelinside\documents\c\vin_database\gui\gui_settings.c
+	"gui_settings.h"
+
+1495845962 c:\users\intelinside\documents\c\vin_database\gui\gui_settings.h
+	<curses.h>
+	"../gui_structs.h"
+	"../functions/struct_tools.h"
+	"gui_sysmsg.h"
+
+1496966247 c:\users\intelinside\documents\c\vin_database\gui_structs.h
+	<panel.h>
+
+1496965646 source:c:\users\intelinside\documents\c\vin_database\gui\gui_sysmsg.c
+	"gui_sysmsg.h"
+
+1496541761 c:\users\intelinside\documents\c\vin_database\gui\gui_sysmsg.h
+	<panel.h>
+	"../static_lang.h"
+
+1496965927 source:c:\users\intelinside\documents\c\vin_database\gui\gui_tools.c
+	"gui_tools.h"
+
+1496020992 c:\users\intelinside\documents\c\vin_database\gui\gui_tools.h
+	<panel.h>
+	"../gui_structs.h"
+	<string.h>
+	"../main_struct.h"
+	"../extern_va.h"
+	"../functions/delete.h"
+	"gui_sysmsg.h"
+
+1496964762 source:c:\users\intelinside\documents\c\vin_database\gui\gui_edit.c
+	"gui_edit.h"
+
+1496504255 c:\users\intelinside\documents\c\vin_database\gui\gui_edit.h
+	<panel.h>
+	"../main_struct.h"
+	"../gui_structs.h"
+	"gui_sysmsg.h"
+	"../functions/struct_tools.h"
+	"../functions/edit.h"
+	"gui_tools.h"
+	"gui_list.h"
+	"../static_lang.h"
+
+1496965495 source:c:\users\intelinside\documents\c\vin_database\gui\gui_load.c
+	"gui_load.h"
+
+1495993443 c:\users\intelinside\documents\c\vin_database\gui\gui_load.h
+	<panel.h>
+	"../gui_structs.h"
+	"../gui_structs.h"
+	"../functions/load.h"
+	"gui_tools.h"
+	"gui_settings.h"
+	"dir_tools.h"
+
+1496533015 c:\users\intelinside\documents\c\vin_database\gui\gui_reset.h
+	<panel.h>
+	"../functions/delete.h"
+	"../functions/struct_tools.h"
+	"../static_lang.h"
+
+1496533130 source:c:\users\intelinside\documents\c\vin_database\gui\gui_reset.c
+	"gui_reset.h"
+
+1496964642 source:c:\users\intelinside\documents\c\vin_database\gui\gui_debug.c
+	"gui_debug.h"
+
+1496503225 c:\users\intelinside\documents\c\vin_database\gui\gui_debug.h
+	"../extern_va.h"
+	<panel.h>
+	"../static_lang.h"
+
+1496964611 source:c:\users\intelinside\documents\c\vin_database\gui\gui_create.c
+	"gui_create.h"
+
+1496501883 c:\users\intelinside\documents\c\vin_database\gui\gui_create.h
+	<panel.h>
+	"../main_struct.h"
+	"../gui_structs.h"
+	"../functions/struct_tools.h"
+	"gui_tools.h"
+	"gui_sysmsg.h"
+	"../functions/create.h"
+	"gui_list.h"
+	"../static_lang.h"
+
+1496965527 source:c:\users\intelinside\documents\c\vin_database\gui\gui_save.c
+	"gui_save.h"
+
+1496012338 c:\users\intelinside\documents\c\vin_database\gui\gui_save.h
+	<panel.h>
+	"../gui_structs.h"
+	"../main_struct.h"
+	"../extern_va.h"
+	<string.h>
+	"../functions/save.h"
+	"gui_sysmsg.h"
+	"gui_tools.h"
+	"gui_settings.h"
+
+1496542845 c:\users\intelinside\documents\c\vin_database\gui\gui_sort.h
+	<panel.h>
+	"../gui_structs.h"
+	"../main_struct.h"
+	"gui_settings.h"
+	"gui_tools.h"
+	"../functions/sort.h"
+	"../static_lang.h"
+
+1496965611 source:c:\users\intelinside\documents\c\vin_database\gui\gui_sort.c
+	"gui_sort.h"
+
+1496541405 source:c:\users\intelinside\documents\c\vin_database\gui\gui_search.c
+	"gui_search.h"
+
+1496023999 c:\users\intelinside\documents\c\vin_database\gui\gui_search.h
+	"../functions/search.h"
+	<panel.h>
+	"../main_struct.h"
+	"../gui_structs.h"
+	"gui_tools.h"
+	"gui_settings.h"
+	"gui_edit.h"
+
+1496965381 source:c:\users\intelinside\documents\c\vin_database\gui\gui_list.c
+	"gui_list.h"
+
+1496521574 c:\users\intelinside\documents\c\vin_database\gui\gui_list.h
+	<panel.h>
+	"../gui_structs.h"
+	"../main_struct.h"
+	"gui_settings.h"
+	"gui_create.h"
+	"gui_edit.h"
+	"gui_save.h"
+	"gui_load.h"
+	"../static_lang.h"
+	"../extern_va.h"
+
+1496513225 c:\users\intelinside\documents\c\vin_database\gui\gui_help.h
+	<panel.h>
+	<string.h>
+	"../gui_structs.h"
+	"../static_lang.h"
+
+1496027906 c:\users\intelinside\documents\c\vin_database\/gui\gui_help.h
+
+1496965113 source:c:\users\intelinside\documents\c\vin_database\gui\gui_help.c
+	"gui_help.h"
+
+1496609170 c:\users\intelinside\documents\c\vin_database\static_lang.h
+	"extern_va.h"
+
+1496964393 source:c:\users\intelinside\documents\c\vin_database\static_lang.c
+	"static_lang.h"
+
+1496331013 c:\users\intelinside\documents\c\vin_database\static_lang_struct.h
+

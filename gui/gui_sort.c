@@ -10,15 +10,36 @@ char *choices_sort[] = {
 			"8. Sort by Model desc",
 			"9. Exit",
 };
-int n_choices_sort = sizeof(choices_sort) / sizeof(char *); // С‚СЂСЋРє РїР»РґСѓС‡РµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
-void guiconf_M_SORT(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // С„СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РјРµС‚РѕРґРѕРІ СЃРѕСЂС‚РёСЂРѕРІРєРё
-    switch_panels(ptype); //РІРєР»СЋС‡РёС‚СЊ РїР°РЅРµР»СЊ LIST
+int n_choices_sort = sizeof(choices_sort) / sizeof(char *); // трюк плдучения количества записей
+
+char *choices_sort_rus[] = {
+			"1. Сортировать по VIN",
+			"2. Сортировать по VIN убыв",
+			"3. Сортировать по ФИО",
+			"4. Сортировать по ФИО",
+			"5. Сортировать по Бренд",
+			"6. Сортировать по Бренд убыв",
+			"7. Сортировать по Модель",
+			"8. Сортировать по Модель убыв",
+			"9. Выход",
+};
+int n_choices_sort_rus = sizeof(choices_sort_rus) / sizeof(char *); // трюк плдучения количества записей
+
+void guiconf_M_SORT(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // функция вывода методов сортировки
+    switch_panels(ptype); //включить панель LIST
     int is_sorted_s = 0;
     keypad(menu_win_pre, FALSE);
     keypad(menu_win, TRUE);
     int choice_list = 0,highlight_li = 1;int c_list = 0;
     while(1){
-        int n_choices_list = n_choices_sort;
+        int n_choices_list = 0;
+        switch(short_lang_data){
+            case 1 :
+                n_choices_list = n_choices_sort_rus;
+            default :
+                n_choices_list = n_choices_sort;
+
+        }
         print_list_sort(menu_win, highlight_li);
         c_list = wgetch(menu_win);
         switch(c_list){
@@ -72,7 +93,7 @@ void guiconf_M_SORT(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // С„СѓРЅР
             choice_list = 0;
         }
         if(is_sorted_s){
-            sys_gui_msg("Sort complete!");
+            sys_gui_msg(pmsg(MSG_SORT_OK));
         }
     }
     switch_panels(ptype);
@@ -80,7 +101,7 @@ void guiconf_M_SORT(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // С„СѓРЅР
     keypad(menu_win, FALSE);
 }
 
-void print_list_sort(WINDOW *menu_win, int highlight2)
+void print_list_sort(WINDOW *menu_win, int highlight2) // прорисовка меню сортировки
 {
 	int x, y, i,max_x;
     getmaxyx(menu_win,y,max_x);
@@ -93,23 +114,45 @@ void print_list_sort(WINDOW *menu_win, int highlight2)
 
     wrefresh(menu_win);
 
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = WIN_N_LIST_MAX/2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
+	x = 2; // координаты сдвига от окна
+	y = WIN_N_LIST_MAX/2; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 2, (max_x-strlen("SORT METHOD"))/2, "SORT METHOD");
+	mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_SORT_MSG)))/2, pmsg(MSG_SORT_MSG));
 
 	for(i = 0; i < n_choices_sort; ++i)
 	{	if(highlight2 == i + 1) /* High light the present choice */
 		{	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
-			mvwprintw(menu_win, y, x, "%s", choices_sort[i]);
+            switch(short_lang_data){
+                case 1:
+                    mvwprintw(menu_win, y, x, "%s", choices_sort_rus[i]);
+                    break;
+                default:
+                    mvwprintw(menu_win, y, x, "%s", choices_sort[i]);
+                }
 			wattroff(menu_win, A_REVERSE | COLOR_PAIR(1));
 		}
 		else
-			mvwprintw(menu_win, y, x, "%s", choices_sort[i]);
+            switch(short_lang_data){
+                case 1:
+                    mvwprintw(menu_win, y, x, "%s", choices_sort_rus[i]);
+                    break;
+                default:
+                    mvwprintw(menu_win, y, x, "%s", choices_sort[i]);
+                }
 		++y;
 	}
-	mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
-	mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
+
+	switch(short_lang_data){
+        case 1 :
+            mvwprintw(menu_win, 19, 2, "---------- Подсказки ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER  # выбор");
+            mvwprintw(menu_win, 19 + 3, 2, "<-,ESC,F10 # выход");
+            break;
+        default :
+            mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
+            mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
+	}
+
 	wrefresh(menu_win);
 }

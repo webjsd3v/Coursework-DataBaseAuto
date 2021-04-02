@@ -13,7 +13,7 @@ list_box ** search_any(char * str,struct list_box * s_temp,char * where, char * 
 
 
 
-    if(strcmp(where,"where") == 0 ){
+    if(strcmp(where,"where") == 0 ){ // если найдено слово where
 
         if((s_name != NULL) && (sz_mod != NULL)){
             while(s_t2 != NULL){

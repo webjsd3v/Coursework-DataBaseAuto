@@ -12,7 +12,7 @@ int s_load_settings(){
     /* enable and create first palette */
     if(!has_colors() && can_change_color()){
         endwin();
-        printf("Terminal not supported colors :( \n");
+        printf(pmsg(MSG_GUI_SETT));
         return 1;
     } // enable color functionality
     start_color(); // инициализация цветов

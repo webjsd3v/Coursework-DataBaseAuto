@@ -15,7 +15,7 @@ int get_countofrec(struct list_box * targett){ // показать количе�
 void con_debug(){ // включить выкл. режим откладки
     if(debug_mode){
         debug_mode = 0 ; fprintf_log(filelog,stdout,pmsg(MSG_CMD_STRUCT_TOOLS_DEBUG));
-    }else{
+    }else{\
         debug_mode = 1;
         fprintf_log(filelog,stdout,pmsg(MSG_CMD_STRUCT_TOOLS_DEBUGON));
     }
@@ -33,7 +33,7 @@ int is_duplicate(char * VIN,struct list_box * db_list){ // проверка , е
 int destroyStruct(struct list_box ** s_struct){ // уничтожить все данные c list
 	int items = 0;
 	struct list_box * newbox = *s_struct, *s_temp = NULL;
-	while(newbox != NULL){
+	while(newbox != NULL){ // освобождаем все элементы каждой записи
 		s_temp = newbox->next;
         free(newbox->Fullname);
         free(newbox->Brand);

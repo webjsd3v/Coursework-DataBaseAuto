@@ -33,6 +33,14 @@
         #include "gui_load.h"
     #endif
 
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
+    #ifndef _EXTERN_VA_H
+        #include "../extern_va.h"
+    #endif
+
     void guiconf_M_LIST();
     void gui_list_view(struct list_box * s_lbt);
     void print_list(WINDOW *menu_win, int highlight2,int n_choices_list,int enable_list,int ptype);

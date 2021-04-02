@@ -4,19 +4,19 @@
 int deleteNote(struct list_box ** s_struct, char * VIN){ // удаление конкретного VIN со структуры
 
 	struct list_box * target = *s_struct;
-	/* if table is empty */
+	/* Если таблица пуста */
 	if(!get_countofrec(target)){
 		fprintf_log(filelog,stderr,pmsg(MSG_CMD_DELETE_TEMPTY));
 		return 2;
 	}
-	/* if VIN not found */
+	/* Если VIN не найден */
 	if(is_duplicate(VIN,target) == 0 ){
 		fprintf_log(filelog,stderr,pmsg(MSG_CMD_DELETE_VNF),VIN);
 		return 2;
 	}
 	struct list_box * s_temp  = target ;
 	if(s_temp == NULL ) return 2; // if found err memory
-	list_box * previous = get_previous(target,VIN); // get previous element
+	list_box * previous = get_previous(target,VIN); // получить предыдущий элемент
 
 	if(strcmp(previous->VIN,VIN ) == 0){
 		fprintf_log(filelog,stdout,pmsg(MSG_CMD_DELETE_EFT));
@@ -27,7 +27,7 @@ int deleteNote(struct list_box ** s_struct, char * VIN){ // удаление к�
 	}
 	list_box * delTarget = previous->next;
 
-	if((delTarget!=NULL) && (strcmp(delTarget->VIN,VIN) == 0 ) ) {
+	if((delTarget!=NULL) && (strcmp(delTarget->VIN,VIN) == 0 ) ) { // если все хорошо , удаляем с кучи
 		previous->next = delTarget->next;
 		free(delTarget->Fullname);
 		free(delTarget->Brand);
@@ -59,7 +59,7 @@ void deleteFirst(struct list_box** list) // проверка первого эл
 void con_delete(struct list_box** s_temp){ // функция удаления записи
     char VIN[32];
     puts(pmsg(MSG_CMD_DELETE_CON_HELP));
-    if(1 != scanf("%31s",VIN) ){
+    if(1 != scanf("%31s",VIN) ){ // получаем строку
        fprintf_log(filelog,stderr,pmsg(MSG_CMD_DELETE_CON_ERR));
     }else{
         deleteNote(&*s_temp,VIN);

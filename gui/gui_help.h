@@ -13,5 +13,9 @@
         #include "../gui_structs.h"
     #endif
 
-    void guiconf_M_HELPINFO(char ** sz_data, int i_data);
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
+    void guiconf_M_HELPINFO(char ** sz_data, int i_data,const char * sz_header);
 #endif // _GUI_HELP_H

@@ -8,6 +8,11 @@
 	#ifndef __PDCURSES_PANEL_H__
 		#include <panel.h>
 	#endif
+
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
     void guiconf_M_DEBUG();
 
 #endif // _GUI_DEBUG_H

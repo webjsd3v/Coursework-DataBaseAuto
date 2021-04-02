@@ -16,17 +16,14 @@
 #define C_MENU_M "m"
 #define C_LANG "lang"
 
-char s_menu[254] = {0};
-
 void menu(){
-    fprintf_log(filelog,stdout,"Welcome" );
-    strcpy(s_menu,"Menu>");
+    fprintf_log(filelog,stdout,pmsg(MSG_MENU_MSG) );
     while(1){
         clrstdin(); // Clear buffer data stdin
-        fprintf_log(filelog,stdout,"%s",s_menu);
+        fprintf_log(filelog,stdout,"%s",pmsg(MSG_MENU_MSG2));
         char cl_cmd[10];int is_exit = 0;int is_valid = 1;
         if(scanf("%9s",cl_cmd) == 0){
-            fprintf_log(filelog,stderr,"Not found arg" );is_valid = 0;
+            fprintf_log(filelog,stderr,pmsg(MSG_MENU_MSG3) );is_valid = 0;
         }
         if(!is_valid) continue;
         /* -- MENU -- */
@@ -54,17 +51,17 @@ void menu(){
 
         else if(strcmp(C_EDIT,cl_cmd) == 0) con_edit(&default_list);
 
-        else if(strcmp(C_LANG,cl_cmd) == 0) ;
+        else if(strcmp(C_LANG,cl_cmd) == 0) change_lang();
 
         else if( (strcmp(C_MENU,cl_cmd) == 0 ) || (strcmp(C_MENU_M,cl_cmd) == 0 ) ) gui_menu();
 
         else if(strcmp(C_GET_COUNT,cl_cmd)== 0){
-            fprintf_log(filelog,stdout,"Total : %i",get_countofrec(default_list));
+            fprintf_log(filelog,stdout,pmsg(MSG_MENU_MSG4),get_countofrec(default_list));
         }else{
-            fprintf_log(filelog,stderr,"Unknown cmd ...");
+            fprintf_log(filelog,stderr,pmsg(MSG_MENU_MSG5));
         }
             if(is_exit){
-            fprintf_log(filelog,stdout,"Bye !");
+            fprintf_log(filelog,stdout,pmsg(MSG_MENU_MSG6));
             break;
         }
     }

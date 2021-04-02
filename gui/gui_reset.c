@@ -4,5 +4,5 @@ void guiconf_M_RESET(){ //сбросить все данные в структу
     int y,x;getmaxyx(stdscr,y,x);
     x = 5;
     move(y-1,x);clrtoeol();
-    mvprintw(y-1,x,"All elements are deleted ! Total %i",destroyStruct(&default_list));refresh();
+    mvprintw(y-1,x,pmsg(MSG_GUI_RESET),destroyStruct(&default_list));refresh();
 }

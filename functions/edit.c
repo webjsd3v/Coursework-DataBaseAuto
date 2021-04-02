@@ -8,11 +8,11 @@ int edit_struct(struct list_box ** s_t1,int el_num,char * sz_mod, char * by,char
     fprintf_log(filelog,stderr,pmsg(MSG_CMD_EDIT_ERR1));
     return 2;
    }
-    if(!get_countofrec(s_temp)){
+    if(!get_countofrec(s_temp)){ // если у нас не 0 записей
         fprintf_log(filelog,stderr,pmsg(MSG_CMD_EDIT_ERR2));
         return 1;
     }
-    if(strcmp_multi_i(by,"by") == 0){
+    if(strcmp_multi_i(by,"by") == 0){ // если обнаружено слово by
         if((strcmp_multi_i(s_name,"Fullname") == 0) && (str_name != NULL)){
             // replace all with this name in Full name column
             by_Fullname(s_t1,str_name,sz_mod,el_num);

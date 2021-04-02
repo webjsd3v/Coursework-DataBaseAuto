@@ -33,6 +33,10 @@
         #include "gui_list.h"
     #endif
 
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
     void gui_cr_element(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype);
     void gui_cr_rscr(WINDOW *menu_win);
 #endif

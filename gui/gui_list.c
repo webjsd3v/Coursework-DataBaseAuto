@@ -1,8 +1,8 @@
 #include "gui_list.h"
 
-void guiconf_M_LIST(){
-    switch_panels(WIN_N_LIST); // РІРєР»СЋС‡РёС‚СЊ Р»РёСЃС‚ РїР°РЅРµР»СЊ
-    switch_panels(WIN_N_SETT); // РІРєР»СЋС‡РёС‚СЊ РїР°РЅРµР»СЊ РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ
+void guiconf_M_LIST(){ // окно списка
+    switch_panels(WIN_N_LIST); // включить лист панель
+    switch_panels(WIN_N_SETT); // включить панель инструментов
     keypad(menu_wins[WIN_N_MAIN], FALSE);
     keypad(menu_wins[WIN_N_LIST], TRUE);
     int choice_list = 0,highlight_li = 1;int c_list = 0;
@@ -32,22 +32,22 @@ void guiconf_M_LIST(){
                 choice_list = M_CREATE_L;
                 gui_cr_element(menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],WIN_N_SETT);
                 break;
-            case KEY_F(1):
+            case KEY_F(7):
             case 'e':
                 choice_list = M_CREATE_L;
 
-                gui_e_element(highlight_li,menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],NULL); // РІРєР»СЋС‡РµРЅРёРµ РїР°РЅРµР»Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЌР»РµРјРµРЅС‚Р°
+                gui_e_element(highlight_li,menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],NULL); // включение панели редактирования элемента
                 break;
-            case 83 : // ^s  СЃРѕС…СЂР°РЅРёС‚СЊ РєР°Рє
-                guiconf_M_SAVE(menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],WIN_N_SETT); // С„СѓРЅРєС†РёСЏ СЃРѕС…СЂР°РЅРёС‚С‚СЊ РєР°Рє
+            case 83 : // ^s  сохранить как
+                guiconf_M_SAVE(menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],WIN_N_SETT); // функция сохранитть как
                 break;
-            case 's' : // ^s  СЃРѕС…СЂР°РЅРёС‚СЊ РєР°Рє
-                sys_quick_save(); // Р±С‹СЃС‚СЂРѕРµ СЃРѕС…СЂР°РЅРµРЅРёРµ РїРѕСЃР»РµРґРЅРµРіРѕ С„Р°Р№Р»Р°
+            case 's' : // ^s  сохранить как
+                sys_quick_save(); // быстрое сохранение последнего файла
                 break;
             case 'l':
                 guiconf_M_LOAD(menu_wins[WIN_N_SETT],menu_wins[WIN_N_LIST],WIN_N_SETT);
                 break;
-            case KEY_F(10): /* РџСЂРёРІСЏР·РєРё РІС‹С…РѕРґР° РёС… SAVE */
+            case KEY_F(10): /* Привязки выхода их SAVE */
             case KEY_LEFT:
             case 27:        /* ESC KEY */
                 choice_list = M_EXIT_L;
@@ -56,10 +56,10 @@ void guiconf_M_LIST(){
             case KEY_F(8):
 
                 if(get_countofrec(default_list) == 0){
-                    sys_gui_msg("No entries!");
+                    sys_gui_msg(pmsg(MSG_CMD_DISPLAY_NOENT));
                 }else{
                     gui_del_element(highlight_li,NULL);
-                    sys_gui_msg("Element deleted successful!");
+                    sys_gui_msg(pmsg(MSG_GUI_LIST_DEL));
                     if_deleted = 1;
                 }
 
@@ -83,13 +83,13 @@ void guiconf_M_LIST(){
         }
         else choice_list = 0;
     }
-    switch_panels(WIN_N_LIST); // РІС‹РєР». РѕРєРЅРѕ СЃРїРёСЃРєР°
-    switch_panels(WIN_N_SETT); // РІС‹РєР» РїР°РЅРµР»СЊ РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ
+    switch_panels(WIN_N_LIST); // выкл. окно списка
+    switch_panels(WIN_N_SETT); // выкл панель инструментов
     keypad(menu_wins[WIN_N_MAIN], TRUE);
     keypad(menu_wins[WIN_N_LIST], FALSE);
 }
 
-void gui_list_view(struct list_box * s_lbt){
+void gui_list_view(struct list_box * s_lbt){ // окно , которое отображает полную информацию о выделенном VIN
     char FN[100] = {0},SN[100] = {0},N1[100] = {0};
     int i_co_gui = 0,x, y;
     getmaxyx(menu_wins[WIN_N_SETT],y,x);
@@ -101,18 +101,18 @@ void gui_list_view(struct list_box * s_lbt){
     wrefresh(menu_wins[WIN_N_SETT]);
 	y = WIN_N_LIST_MAX/2;
 	wborder(menu_wins[WIN_N_SETT],WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_wins[WIN_N_SETT], y - y + 2, (x-strlen("CURRENT ELEMENT"))/2, "CURRENT ELEMENT");
+	mvwprintw(menu_wins[WIN_N_SETT], y - y + 2, (x-strlen(pmsg(MSG_GUI_LISTINFO_MSG1)))/2, pmsg(MSG_GUI_LISTINFO_MSG1));
     mvwprintw(menu_wins[WIN_N_SETT], y - y + 5, 2, "VIN   : %s",s_lbt->VIN);
     sscanf(s_lbt->Fullname,"%99s %99s %99s",FN,SN,N1);
-    mvwprintw(menu_wins[WIN_N_SETT], y - y + 6, 2, "Name : %s",FN);
-    mvwprintw(menu_wins[WIN_N_SETT], y - y + 7, 2, "Surname : %s",SN);
-    mvwprintw(menu_wins[WIN_N_SETT], y - y + 8, 2, "Sname : %s",N1);
-    mvwprintw(menu_wins[WIN_N_SETT], y - y + 9, 2, "Brand : %s",s_lbt->Brand);
-    mvwprintw(menu_wins[WIN_N_SETT], y - y + 10, 2, "Model : %s",s_lbt->Model);
+    mvwprintw(menu_wins[WIN_N_SETT], y - y + 6, 2, pmsg(MSG_GUI_LISTINFO_NAME),FN);
+    mvwprintw(menu_wins[WIN_N_SETT], y - y + 7, 2, pmsg(MSG_GUI_LISTINFO_SUR),SN);
+    mvwprintw(menu_wins[WIN_N_SETT], y - y + 8, 2, pmsg(MSG_GUI_LISTINFO_NAME2),N1);
+    mvwprintw(menu_wins[WIN_N_SETT], y - y + 9, 2, pmsg(MSG_GUI_LISTINFO_BRA),s_lbt->Brand);
+    mvwprintw(menu_wins[WIN_N_SETT], y - y + 10, 2,pmsg(MSG_GUI_LISTINFO_MOD),s_lbt->Model);
 	wrefresh(menu_wins[WIN_N_SETT]);
 }
 
-void print_list(WINDOW *menu_win, int highlight2,int n_choices_list,int enable_list,int ptype)
+void print_list(WINDOW *menu_win, int highlight2,int n_choices_list,int enable_list,int ptype) // прорисовка списка
 {
     int x, y, i;
     getmaxyx(menu_win,y,x);
@@ -121,26 +121,42 @@ void print_list(WINDOW *menu_win, int highlight2,int n_choices_list,int enable_l
         cls_line(menu_win,1+i_co_gui,1,x-1);
         i_co_gui++;
     }
-	mvwprintw(menu_win, 15, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 15 + 1, 2, "l           # load new db  ");
-	mvwprintw(menu_win, 15 + 2, 2, "-> or ENTER # menu selector");
-	mvwprintw(menu_win, 15 + 3, 2, "<-,F10,ESC  # exit to pre menu");
-	mvwprintw(menu_win, 15 + 4, 2, "C or F6     # create new note");
-	mvwprintw(menu_win, 15 + 5, 2, "E or F7     # edit note");
-	mvwprintw(menu_win, 15 + 6, 2, "DEL or F8   # remove note");
-    mvwprintw(menu_win, 15 + 7, 2, "s           # quick save      ");
-    mvwprintw(menu_win, 15 + 8, 2, "S+SHIFT     # save as...      ");
-	wrefresh(menu_win);
+    switch(short_lang_data){
+        case 1 :
+            mvwprintw(menu_win, 15, 2, "---------- Подсказки ----------");
+            mvwprintw(menu_win, 15 + 1, 2, "l,          # быстрая загр. ");
+            mvwprintw(menu_win, 15 + 2, 2, "l + SHIFT   # загрузка из ф. ");
+            mvwprintw(menu_win, 15 + 3, 2, "<-,F10,ESC  # Выход в глав. м.");
+            mvwprintw(menu_win, 15 + 4, 2, "C или F6    # создать запись");
+            mvwprintw(menu_win, 15 + 5, 2, "E или F7    # редактировать");
+            mvwprintw(menu_win, 15 + 6, 2, "DEL или F8  # удалить запись");
+            mvwprintw(menu_win, 15 + 7, 2, "s           # быстрое сохр. ");
+            mvwprintw(menu_win, 15 + 8, 2, "S+SHIFT     # сохранить как ");
+            wrefresh(menu_win);
+            break;
+        default :
+            mvwprintw(menu_win, 15, 2, "------- Tips and Tricks -------");
+            mvwprintw(menu_win, 15 + 2, 2, "l           # load new db  ");
+            mvwprintw(menu_win, 15 + 3, 2, "<-,F10,ESC  # exit to pre menu");
+            mvwprintw(menu_win, 15 + 4, 2, "C or F6     # create new note");
+            mvwprintw(menu_win, 15 + 5, 2, "E or F7     # edit note");
+            mvwprintw(menu_win, 15 + 6, 2, "DEL or F8   # remove note");
+            mvwprintw(menu_win, 15 + 7, 2, "s           # quick save      ");
+            mvwprintw(menu_win, 15 + 8, 2, "S+SHIFT     # save as...      ");
+            wrefresh(menu_win);
+    }
+
     wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
     wrefresh(menu_win);
-    /* РџСЂРѕРІРµСЂРєР° , РІС‹РєР»СЋС‡РµРЅРѕ Р»Рё РѕРєРЅРѕ , РµСЃР»Рё РґР° , С‚Рѕ РІРєР». */
+    /* Проверка , выключено ли окно , если да , то вкл. */
     if( ((PANEL_DATA *)panel_userptr(menu_panels[WIN_N_LIST]))->hide == TRUE ){
             switch_panels(ptype);
     }
+    int x1 = x;
+	x = 2; // координаты сдвига от окна
 
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = (WIN_N_LIST_MAX/2)-1; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	mvwprintw(menu_win, 2, 15, "LIST");
+	y = (WIN_N_LIST_MAX/2)-1; // координаты сдвига от окна
+	mvwprintw(menu_win, 2, (x1-strlen(pmsg(MSG_GUI_LISTINFO_LI)))/2, pmsg(MSG_GUI_LISTINFO_LI));
 	int i_position = highlight2-1,i_lastel = 0,i_lastel2 = 0;
     if(default_list == NULL){
         return; // terminate print FIX BUG

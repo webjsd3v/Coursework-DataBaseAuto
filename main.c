@@ -9,10 +9,10 @@
 
 int main(int argc, char * argv[]){
     setlocale(LC_ALL, ".1251");
-    system("chcp 1251 >NULL");
-    unitd(argc,argv);
+    system("chcp 1251 >NULL"); // устанавливаем кодировку консоли для WINDOWS NT
+    unitd(argc,argv); // проверяем , передавались ли зарезервированные агрументы типа -fout, --help -h
 
-    if(argc < 4 && argc > 1) s_loaded_file(&default_list,argc,argv);
+    if(argc < 4 && argc > 1) s_loaded_file(&default_list,argc,argv); // проверяем , есть ли загруженные файлы
 
     gui_menu(); // Начальная загрузка начинается с GUI меню
 

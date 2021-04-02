@@ -6,15 +6,31 @@ char *choices_load[] = {
             "3. Exit",
 };
 
-int n_choices_load = sizeof(choices_load) / sizeof(char *); // С‚СЂСЋРє РїР»РґСѓС‡РµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
-// Р·Р°РіСЂСѓР·РєР° С„Р°Р№Р»РѕРІ
-void guiconf_M_LOAD(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
+int n_choices_load = sizeof(choices_load) / sizeof(char *); // трюк плдучения количества записей
+
+char *choices_load_rus[] = {
+            "1. Быстрая загрузка",
+            "2. Загрузка из файла ...",
+            "3. Выход",
+};
+
+int n_choices_load_rus = sizeof(choices_load_rus) / sizeof(char *); // трюк плдучения количества записей
+// загрузка файлов
+void guiconf_M_LOAD(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // окно загрузки
     switch_panels(ptype);
     keypad(menu_win_pre, FALSE);
     keypad(menu_win, TRUE);
     int choice_list = 0,highlight_li = 1;int c_list = 0;
     while(1){
-        int n_choices_list = n_choices_load;
+        int n_choices_list = 0;
+        switch(short_lang_data){
+            case 1 :
+                n_choices_list = n_choices_load_rus;
+                break;
+            default :
+                n_choices_list = n_choices_load;
+        }
+
         print_list_load(menu_win, highlight_li);
         c_list = wgetch(menu_win);
         switch(c_list){
@@ -30,12 +46,12 @@ void guiconf_M_LOAD(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
                 else
                     ++highlight_li;
                 break;
-            case 10:    /* РїСЂРёРІСЏР·РєРё РІС‹Р±РѕСЂР° */
+            case 10:    /* привязки выбора */
             case KEY_RIGHT:
                 choice_list = highlight_li;
                 break;
 
-            case KEY_F(10): /* РџСЂРёРІСЏР·РєРё РІС‹С…РѕРґР° РёС… SAVE */
+            case KEY_F(10): /* Привязки выхода их SAVE */
             case KEY_LEFT:
             case 27:        /* ESC KEY */
             case 'l':        /* S KEY */
@@ -49,7 +65,7 @@ void guiconf_M_LOAD(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
             break;
         }else if(choice_list == 1){
             try_load(&default_list,"",sz_def_filename);
-            mvwprintw(menu_win, 15, 2, "LOADED %s OK! PRESS ENTER!",sz_def_filename);wrefresh(menu_win);
+            mvwprintw(menu_win, 15, 2, pmsg(MSG_GUI_LOAD_MSG2),sz_def_filename);wrefresh(menu_win);
             getch();clrstdin();
             choice_list = 0;
         }else if(choice_list == 2){
@@ -74,7 +90,7 @@ void guiconf_M_LOAD(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
     keypad(menu_win, FALSE);
 }
 
-void print_list_load(WINDOW *menu_win, int highlight2)
+void print_list_load(WINDOW *menu_win, int highlight2) // прорисовка окна загрузки
 {
 	int x, y, i,max_x;
     getmaxyx(menu_win,y,max_x);
@@ -85,35 +101,58 @@ void print_list_load(WINDOW *menu_win, int highlight2)
     }
     wrefresh(menu_win);
 
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = WIN_N_LIST_MAX/2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
+	x = 2; // координаты сдвига от окна
+	y = WIN_N_LIST_MAX/2; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 2, (max_x-strlen("LOAD METHOD"))/2, "LOAD METHOD");
+	mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_GUI_LOAD_MSG3)))/2, pmsg(MSG_GUI_LOAD_MSG3));
 
 	for(i = 0; i < n_choices_load; ++i)
 	{	if(highlight2 == i + 1) /* High light the present choice */
-		{	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
-			mvwprintw(menu_win, y, x, "%s", choices_load[i]);
+		{
+		    wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
+
+            switch(short_lang_data){
+                case 1 :
+                    mvwprintw(menu_win, y, x, "%s", choices_load_rus[i]);
+                    break;
+                default :
+                    mvwprintw(menu_win, y, x, "%s", choices_load[i]);
+            }
+
 			wattroff(menu_win, A_REVERSE | COLOR_PAIR(1));
 		}
 		else
-			mvwprintw(menu_win, y, x, "%s", choices_load[i]);
+            switch(short_lang_data){
+                case 1 :
+                    mvwprintw(menu_win, y, x, "%s", choices_load_rus[i]);
+                    break;
+                default :
+                    mvwprintw(menu_win, y, x, "%s", choices_load[i]);
+            }
 		++y;
 	}
+    switch(short_lang_data){
+        case 1 :
+            mvwprintw(menu_win, 19, 2, "----------  Подсказки ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "->, ENTER   # выбор");
+            mvwprintw(menu_win, 19 + 3, 3, "<-, F10,ESC # выход");
+            break;
+        default:
+            mvwprintw(menu_win, 19, 2, "---------- Tips & Tricks --------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
+            mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
+    }
 
-	mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
-	mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
 	wrefresh(menu_win);
 }
-// СЃ РїРѕРґРґРµСЂР¶РєРѕР№ Р±СЂР°СѓР·РµСЂР°
-void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
+// с поддержкой браузера
+void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // прорисовка браузера
     switch_panels(ptype);
     keypad(menu_win_pre, FALSE);
     keypad(menu_win, TRUE);
     int choice_list = 0,highlight_li = 1;int c_list = 0;char sz_selected[1024] = {0};
     char sz_path[1024];
-    strcpy(sz_path, _getcwd(sz_path, sizeof(sz_path)) ); // РЅР°С‡Р°С‚СЊ СЃ С‚РµРєСѓС‰РµР№ РґРёСЂРµРєС‚РѕСЂРёРё
+    strcpy(sz_path, _getcwd(sz_path, sizeof(sz_path)) ); // начать с текущей директории
     while(1){
         int n_choices_list = get_coffile(opendir (sz_path));
 
@@ -128,18 +167,18 @@ void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
             wrefresh(menu_win);
 
             wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-            mvwprintw(menu_win, 2, (max_x-strlen("BROWSER"))/2, "BROWSER");
+            mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_GUI_LOAD_MSG1)))/2, pmsg(MSG_GUI_LOAD_MSG1));
 
-            mvwprintw(menu_win, 5, y-y+2, "SELECTED : '%s'!",sz_selected);wrefresh(menu_win);
+            mvwprintw(menu_win, 5, y-y+2, pmsg(MSG_GUI_LOAD_MSG4),sz_selected);wrefresh(menu_win);
             getch();clrstdin();
-            mvwprintw(menu_win, 6, 2, "LOAD THIS FILE Y/N ?");wrefresh(menu_win);
+            mvwprintw(menu_win, 6, 2, pmsg(MSG_GUI_LOAD_MSG5));wrefresh(menu_win);
             int ch4 = getch();
             if(ch4 == 'Y' || ch4 == 'y' || ch4 == '\n' ){
-                mvwprintw(menu_win, 6, 2, "WANT TO ENTER PASSWORD Y/N ?");wrefresh(menu_win);
+                mvwprintw(menu_win, 6, 2, pmsg(MSG_GUI_LOAD_MSG6));wrefresh(menu_win);
                 int ch5 = getch();char PASSWD[254] = {0};strcpy(PASSWD,"");
                 if(ch5 == 'Y' || ch5 == 'y' || ch5 == '\n' ){
 
-                    mvwprintw(menu_win, 7, 2, "ENTER PASSWORD : ");wrefresh(menu_win);
+                    mvwprintw(menu_win, 7, 2, pmsg(MSG_GUI_LOAD_MSG7));wrefresh(menu_win);
                     mvwprintw(menu_win, 8, 2, "->");
                     wrefresh(menu_win);
                     echo();
@@ -147,11 +186,11 @@ void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
                     wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);;wrefresh(menu_win); /* fix borders */
                     noecho();
                 }
-                mvwprintw(menu_win, 9, 2, "OK . LOADING...");wrefresh(menu_win);
+                mvwprintw(menu_win, 9, 2, pmsg(MSG_GUI_LOAD_MSG8));wrefresh(menu_win);
                 if(try_load(&default_list,PASSWD,sz_selected) == 2){
-                    mvwprintw(menu_win, 12, 2, "ERR LOADING :( PRESS ANY KEY");wrefresh(menu_win);
+                    mvwprintw(menu_win, 12, 2, pmsg(MSG_GUI_LOAD_MSG9));wrefresh(menu_win);
                 }else{
-                    mvwprintw(menu_win, 12, 2, "SUCCESS! PRESS ANY KEY");wrefresh(menu_win);
+                    mvwprintw(menu_win, 12, 2, pmsg(MSG_GUI_LOAD_MSG10));wrefresh(menu_win);
                 }
 
                 getch();clrstdin();
@@ -175,12 +214,12 @@ void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
                 else
                     ++highlight_li;
                 break;
-            case 10:    /* РїСЂРёРІСЏР·РєРё РІС‹Р±РѕСЂР° */
+            case 10:    /* привязки выбора */
             case KEY_RIGHT:
                 choice_list = highlight_li;
                 break;
 
-            case KEY_F(10): /* РџСЂРёРІСЏР·РєРё РІС‹С…РѕРґР° РёС… SAVE */
+            case KEY_F(10): /* Привязки выхода их SAVE */
             case KEY_LEFT:
             case 27:        /* ESC KEY */
             case 'l':        /* S KEY */
@@ -223,7 +262,7 @@ void guiconf_M_LOADLIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){
     keypad(menu_win, FALSE);
 }
 
-void print_list_loadlist(WINDOW *menu_win, int highlight2,int n_browserlist)
+void print_list_loadlist(WINDOW *menu_win, int highlight2,int n_browserlist) // файловый браузер
 {
 	int x, y, i,max_x;
     getmaxyx(menu_win,y,max_x);
@@ -234,10 +273,10 @@ void print_list_loadlist(WINDOW *menu_win, int highlight2,int n_browserlist)
     }
     wrefresh(menu_win);
 
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = WIN_N_LIST_MAX/2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
+	x = 2; // координаты сдвига от окна
+	y = WIN_N_LIST_MAX/2; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 2, (max_x-strlen("BROWSER"))/2, "BROWSER");
+	mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_GUI_LOAD_MSG1)))/2, pmsg(MSG_GUI_LOAD_MSG1));
 
     DIR *dp;
     dp = opendir ("./");
@@ -272,11 +311,20 @@ void print_list_loadlist(WINDOW *menu_win, int highlight2,int n_browserlist)
     (void) closedir (dp);
     //
 
+    switch(short_lang_data){
+        case 1 :
+            mvwprintw(menu_win, 19, 2, "----------  Подсказки ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER  # выбор");
+            mvwprintw(menu_win, 19 + 3, 2, "<-,ESC,F10,l # выход");
+            break;
+        default:
+            mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
+            mvwprintw(menu_win, 19 + 3, 2, "<-,ESC,F10,l //exit to pre menu");
+    }
 
 
-	mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
-	mvwprintw(menu_win, 19 + 3, 2, "<-,ESC,F10,l //exit to pre menu");
-	mvwprintw(menu_win, 19 + 4, 3, "UP DOWN //navigation buttons");
+
+
 	wrefresh(menu_win);
 }

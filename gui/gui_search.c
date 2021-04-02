@@ -8,10 +8,20 @@ char *choices_search[] = {
             "5. Exit"
 };
 
-int n_choices_search = sizeof(choices_search) / sizeof(char *); // С‚СЂСЋРє РїР»РґСѓС‡РµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
-// Р·Р°РіСЂСѓР·РєР° С„Р°Р№Р»РѕРІ
+int n_choices_search = sizeof(choices_search) / sizeof(char *); // трюк плдучения количества записей
 
-void plsl_a(WINDOW * menu_win,int by_type){  // СЃРѕРєСЂР°С‰РµРЅРЅС‹Р№ РјР°РєСЂРѕСЃ РґР»СЏ РїРѕРёСЃРєР°
+char *choices_search_rus[] = {
+            "1. По VIN",
+            "2. По ФИО",
+            "3. По бренду",
+            "4. По моделе",
+            "5. Выход"
+};
+
+int n_choices_search_rus = sizeof(choices_search_rus) / sizeof(char *); // трюк плдучения количества записей
+// загрузка файлов
+
+void plsl_a(WINDOW * menu_win,int by_type){  // сокращенный макрос для поиска
     char by_name[64];char sz_vinname[254] = {0};
     switch(by_type){
     case 0 :{
@@ -34,7 +44,7 @@ void plsl_a(WINDOW * menu_win,int by_type){  // СЃРѕРєСЂР°С‰РµРЅРЅС‹Р№ РјР°РєСЂР
         strcpy(by_name,"VIN");
     }
     struct list_box * s_array[1024] = {0};
-    mvwprintw(menu_win, 12, 2, "ENTER %s : ",by_name);wrefresh(menu_win);
+    mvwprintw(menu_win, 12, 2, pmsg(MSG_GUI_SEARCH_MSG1),by_name);wrefresh(menu_win);
     mvwprintw(menu_win, 13, 2, "->");
     wrefresh(menu_win);
     gui_dynamic_buffer(menu_win,13,4,"",sz_vinname,sizeof(sz_vinname)-1 );
@@ -43,10 +53,10 @@ void plsl_a(WINDOW * menu_win,int by_type){  // СЃРѕРєСЂР°С‰РµРЅРЅС‹Р№ РјР°РєСЂР
     if(menu_win == menu_wins[WIN_N_LIST]){
 
     search_any(sz_vinname,default_list,"where",by_name,sz_vinname,s_array );
-    mvwprintw(menu_win, 14, 4, "[Beta]Found : [%i]",s_arr_count(s_array));
+    mvwprintw(menu_win, 14, 4, pmsg(MSG_GUI_SEARCH_MSG2),s_arr_count(s_array));
     wrefresh(menu_win);
     if(s_arr_count(s_array) == 0){
-        mvwprintw(menu_win, 15, 4, "PRESS ANY KEY TO CONTINUE");
+        mvwprintw(menu_win, 15, 3, pmsg(MSG_GUI_CREATE_MSG6));
         wrefresh(menu_win);
         getch();
         return;
@@ -59,12 +69,12 @@ void plsl_a(WINDOW * menu_win,int by_type){  // СЃРѕРєСЂР°С‰РµРЅРЅС‹Р№ РјР°РєСЂР
 
 }
 
-int s_arr_count(struct list_box ** s_array){ // РїРѕРґСЃС‡РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РїРѕРёСЃРєР°
+int s_arr_count(struct list_box ** s_array){ // подсчет результатов поиска
     int i_csa = -1; while(s_array[++i_csa] != 0);
     return i_csa;
 }
 
-void print_list_search_list(WINDOW *menu_win, int highlight2,struct list_box ** s_array) // РїР°РЅРµР»СЊ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РїРѕРёСЃРєР°
+void print_list_search_list(WINDOW *menu_win, int highlight2,struct list_box ** s_array) // панель результатов поиска
 {
     // clear scr
 	int x, y, i,max_x;
@@ -76,10 +86,10 @@ void print_list_search_list(WINDOW *menu_win, int highlight2,struct list_box ** 
     }
     wrefresh(menu_win);
     // end
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = WIN_N_LIST_MAX/2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
+	x = 2; // координаты сдвига от окна
+	y = WIN_N_LIST_MAX/2; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 2, (max_x-strlen("SEARCH METHOD"))/2, "SEARCH METHOD");
+	mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_GUI_SEARCH_PRE)))/2, pmsg(MSG_GUI_SEARCH_PRE));
     if(s_arr_count(s_array) != 0){
 
         int i_counter = 0;
@@ -104,16 +114,26 @@ void print_list_search_list(WINDOW *menu_win, int highlight2,struct list_box ** 
             }
         }
     }
+    switch(short_lang_data){
+    case 1 :
+        mvwprintw(menu_win, 17, 2, "---------- Подсказки ----------");
+        mvwprintw(menu_win, 17 + 2, 3, "-> or ENTER  # выбор");
+        mvwprintw(menu_win, 17 + 3, 3, "<-,ESC,F10 # выход");
+        mvwprintw(menu_win, 17 + 4, 3, "DEL или F8  # удалить запись");
+        break;
+    default :
+        mvwprintw(menu_win, 17, 2, "---------- FAST HELP ----------");
+        mvwprintw(menu_win, 17 + 2, 3, "->,e,ENTER // Edit element");
+        mvwprintw(menu_win, 17 + 3, 3, "<-,F10,ESC //exit to pre menu");
+        mvwprintw(menu_win, 17 + 4, 3, "DEL,F8     //delete note");
+
+    }
 
 
-	mvwprintw(menu_win, 17, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 17 + 2, 3, "->,e,ENTER // Edit element");
-	mvwprintw(menu_win, 17 + 3, 3, "<-,F10,ESC //exit to pre menu");
-	mvwprintw(menu_win, 17 + 4, 3, "DEL,F8     //delete note");
 	wrefresh(menu_win);
 }
 
-void guiconf_M_SEARCH_LIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype,struct list_box ** s_array){ // РЅР°РІРёРіР°С‚РѕСЂ РїРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°Рј РїРѕРёСЃРєР°
+void guiconf_M_SEARCH_LIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype,struct list_box ** s_array){ // навигатор по результатам поиска
     switch_panels(ptype);
     keypad(menu_win_pre, FALSE);
     keypad(menu_win, TRUE);
@@ -135,25 +155,25 @@ void guiconf_M_SEARCH_LIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype,struc
                 else
                     ++highlight_li;
                 break;
-            case KEY_F(10): /* РџСЂРёРІСЏР·РєРё РІС‹С…РѕРґР° РёС… SAVE */
+            case KEY_F(10): /* Привязки выхода их SAVE */
             case KEY_LEFT:
             case 27:        /* ESC KEY */
                 choice_list = M_EXIT_L;
                 break;
-            case 10:    /* РїСЂРёРІСЏР·РєРё РІС‹Р±РѕСЂР° */
+            case 10:    /* привязки выбора */
             case KEY_RIGHT:
             case 'e':
-                gui_e_element(highlight_li,menu_wins[WIN_N_LIST],menu_wins[WIN_N_SETT],s_array[highlight_li-1]); // РІРєР»СЋС‡РµРЅРёРµ РїР°РЅРµР»Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЌР»РµРјРµРЅС‚Р°
+                gui_e_element(highlight_li,menu_wins[WIN_N_LIST],menu_wins[WIN_N_SETT],s_array[highlight_li-1]); // включение панели редактирования элемента
                 choice_list = 0;
                 break;
             case 330:
             case KEY_F(8):
 
                 if(get_countofrec(default_list) == 0){
-                    sys_gui_msg("No entries!");
+                    sys_gui_msg(pmsg(MSG_CMD_DISPLAY_NOENT));
                 }else{
                     gui_del_element(highlight_li,s_array[highlight_li-1]);
-                    sys_gui_msg("Element deleted successful!");
+                    sys_gui_msg(pmsg(MSG_GUI_LIST_DEL));
 
                 }
                 choice_list = M_EXIT_L;
@@ -176,7 +196,7 @@ void guiconf_M_SEARCH_LIST(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype,struc
     keypad(menu_win, FALSE);
 }
 
-void print_list_search(WINDOW *menu_win, int highlight2) // РїСЂРѕСЂРёСЃРѕРІРєР° РјРµРЅСЋ РїРѕРёСЃРєР°
+void print_list_search(WINDOW *menu_win, int highlight2) // прорисовка меню поиска
 {
 	int x, y, i,max_x;
     getmaxyx(menu_win,y,max_x);
@@ -187,35 +207,66 @@ void print_list_search(WINDOW *menu_win, int highlight2) // РїСЂРѕСЂРёСЃРѕРІРєР°
     }
     wrefresh(menu_win);
 
-	x = 2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
-	y = WIN_N_LIST_MAX/2; // РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРґРІРёРіР° РѕС‚ РѕРєРЅР°
+	x = 2; // координаты сдвига от окна
+	y = WIN_N_LIST_MAX/2; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 2, (max_x-strlen("SEARCH METHOD"))/2, "SEARCH METHOD");
+	mvwprintw(menu_win, 2, (max_x-strlen(pmsg(MSG_GUI_SEARCH_PRE)))/2, pmsg(MSG_GUI_SEARCH_PRE));
 
-	for(i = 0; i < n_choices_search; ++i)
-	{	if(highlight2 == i + 1) /* High light the present choice */
-		{	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
-			mvwprintw(menu_win, y, x, "%s", choices_search[i]);
-			wattroff(menu_win, A_REVERSE | COLOR_PAIR(1));
-		}
-		else
-			mvwprintw(menu_win, y, x, "%s", choices_search[i]);
-		++y;
-	}
+    switch(short_lang_data){
+        case 1 :
 
-	mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
-	mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
-	mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
+             for(i = 0; i < n_choices_search_rus; ++i)
+            {	if(highlight2 == i + 1) /* High light the present choice */
+                {	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
+                    mvwprintw(menu_win, y, x, "%s", choices_search_rus[i]);
+                    wattroff(menu_win, A_REVERSE | COLOR_PAIR(1));
+                }
+                else
+                    mvwprintw(menu_win, y, x, "%s", choices_search_rus[i]);
+                ++y;
+            }
+
+            mvwprintw(menu_win, 19, 2, "---------- Подсказки ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER  # выбор");
+            mvwprintw(menu_win, 19 + 3, 2, "<-,ESC,F10 # выход");
+
+            break;
+
+        default:
+            for(i = 0; i < n_choices_search; ++i)
+            {	if(highlight2 == i + 1) /* High light the present choice */
+                {	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) );
+                    mvwprintw(menu_win, y, x, "%s", choices_search[i]);
+                    wattroff(menu_win, A_REVERSE | COLOR_PAIR(1));
+                }
+                else
+                    mvwprintw(menu_win, y, x, "%s", choices_search[i]);
+                ++y;
+            }
+
+            mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
+            mvwprintw(menu_win, 19 + 2, 3, "-> or ENTER // menu selector");
+            mvwprintw(menu_win, 19 + 3, 3, "<- or F10 //exit to pre menu");
+            }
+
 	wrefresh(menu_win);
 }
 
-void guiconf_M_SEARCH(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // РЅР°РІРёРіР°С‚РѕСЂ РїРѕ РјРµС‚РѕРґР°Рј РїРѕРёСЃРєР°
+void guiconf_M_SEARCH(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // навигатор по методам поиска
     switch_panels(ptype);
     keypad(menu_win_pre, FALSE);
     keypad(menu_win, TRUE);
     int choice_list = 0,highlight_li = 1;int c_list = 0;
     while(1){
-        int n_choices_list = n_choices_search;
+        int n_choices_list =  0;
+        switch(short_lang_data){
+            case 1 :
+                n_choices_list = n_choices_search_rus;
+                break;
+            default :
+                n_choices_list = n_choices_search;
+        }
+
         print_list_search(menu_win, highlight_li);
         c_list = wgetch(menu_win);
         switch(c_list){
@@ -231,12 +282,12 @@ void guiconf_M_SEARCH(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype){ // РЅР°Р
                 else
                     ++highlight_li;
                 break;
-            case 10:    /* РїСЂРёРІСЏР·РєРё РІС‹Р±РѕСЂР° */
+            case 10:    /* привязки выбора */
             case KEY_RIGHT:
                 choice_list = highlight_li;
                 break;
 
-            case KEY_F(10): /* РџСЂРёРІСЏР·РєРё РІС‹С…РѕРґР° РёС… SAVE */
+            case KEY_F(10): /* Привязки выхода их SAVE */
             case KEY_LEFT:
             case 27:        /* ESC KEY */
             case 'l':        /* S KEY */

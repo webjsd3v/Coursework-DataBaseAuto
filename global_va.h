@@ -5,7 +5,7 @@
         #define MALLOC(x,y) do { y = malloc(x); if (!y) abort(1); } while(0) // check  MALLOC out of memory
     #endif // __MALLOC_FORMAT
 
-    #define MAX_TEMP_STORE 254
+    #define MAX_TEMP_STORE 254 // макс длина имени файла темп
     #define FILE_LOG_SIZE 254
 
     char * sz_store [MAX_TEMP_STORE]; // временно сохранять для дальнейшего оперирования с объектами
@@ -18,7 +18,7 @@
     #endif
 
     #ifndef DEBUG_MODE
-        #define DEBUG_MODE 1
+        #define DEBUG_MODE 1 // стандартно включен режим отладки
         short debug_mode = DEBUG_MODE;
     #endif
 
@@ -27,7 +27,7 @@
     #endif // MAX_WINS
 
     // объявление глобальных переменных
-    short is_gui = GUI_OFF;
+    short is_gui = GUI_OFF; // стандартно вывод fprintf_log включен
     char filelog[FILE_LOG_SIZE] = {0};
     char sz_def_filename[FILE_LOG_SIZE] = {0};
     #ifndef DEFAULT_LANG

@@ -7,21 +7,21 @@
 #define CON_STRING 1024
 
 int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ //функция загрузки базы данных с файла с поддержкой шифрования
-    if( access( filename, R_OK ) == -1 ) {
+    if( access( filename, R_OK ) == -1 ) { // если нет доступа к файлу - то выходим с функции
         fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_FNF),filename);
         return 2;
     }
     FILE *fp;int i_count = 0;char loaded_key[1024];short is_nmadecr = 0;
     FILE *fo;char ss1[254] = {0},ss2[254] = {0},ss3[254] = {0};
     char ss4[254] = {0} ;short is_encypt = 0;
-    char tempfile [] = "temp.bin";
+    char tempfile [] = "temp.bin"; // устанавливаем загрузку с стандартного файла
     // try open files
-    if((fp = fopen(filename, "rb")) == NULL){
+    if((fp = fopen(filename, "rb")) == NULL){ // если файл не загружается , выйти с функции
         fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_FOE));
         fclose(fp);
         return 2;
     }
-	if (!(fo = fopen(tempfile, "wb"))) {
+	if (!(fo = fopen(tempfile, "wb"))) { // (бинарный режим записи) прервать функцию , если не откроется файл
 		fclose(fp);
 		fclose(fo);
 		remove(tempfile);
@@ -35,15 +35,15 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
             // PREPARE VARIABLES
             unsigned char n = 0, m = 0,
                 j = 0,
-                s[256];			// ("s-list_box") for RC4
+                s[256];			// ("s-list_box") для RC4
 
                                 // generated. the majority of ciphers use a fixed s-list_box.
 
             size_t i, bytes_read, key_len = strlen(sz_user_key);
             int i_count_bytes = 0;
             if(key_len){
-                unsigned char data[RD_BLOCK]; // our data store for plaintext/ciphertext
-                    // s-list_box initialization
+                unsigned char data[RD_BLOCK]; // Наше хранилище данных для открытого текста / зашифрованного текста
+                    // Инициализация s-list_box
                 for (i = 0; i < 256; i++) s[i] = (char)i;
 
                 for (i = 0; i < 256; i++) {
@@ -66,12 +66,12 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
                         // generate byte
                         m = (m + 1) % 256;
                         n = (n + s[m]) % 256;
-                        swap_byte(&s[m], &s[n]);
+                        swap_byte(&s[m], &s[n]); // меняем местами байты
 
                         data[i] ^= s[(s[m] + s[n]) % 256];
                     }
                     i_count_bytes++;
-                    fwrite(data, 1, bytes_read, fo);
+                    fwrite(data, 1, bytes_read, fo); // записываем в файл строку
 
 
                 }
@@ -79,17 +79,17 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
 
             if(debug_mode)fprintf_log(filelog,stdout,pmsg(MSG_CMD_LOAD_MSG1),i_count_bytes);
             fclose(fo);
-            if (!(fo = fopen(tempfile, "r"))) {
+            if (!(fo = fopen(tempfile, "r"))) { // если темп файл нельзя прочитать,выйдет с функции
                 fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_ERRIO),tempfile );
                 fclose(fp);
                 fclose(fo);
                 remove(tempfile);
                 return 2;
             }
-            fgets(loaded_key, sizeof (loaded_key), fo);
-            loaded_key[strlen(loaded_key)-1] = 0;
+            fgets(loaded_key, sizeof (loaded_key), fo); // получаем пароль
+            loaded_key[strlen(loaded_key)-1] = 0; // удаляем \n
             if(debug_mode && (!is_gui))printf(pmsg(MSG_CMD_LOAD_MSG2),loaded_key,sz_user_key);
-            if(!strcmp(loaded_key,sz_user_key)==0){
+            if(!strcmp(loaded_key,sz_user_key)==0){ // если пароь не совпадает
                 fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_ERRPASS),sz_user_key);
                 is_nmadecr = 1;
             }else{
@@ -107,7 +107,7 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
             }
 
             fgets(loaded_key, sizeof (loaded_key), fp);
-            if(loaded_key[strlen(loaded_key)-1] == '\n'){
+            if(loaded_key[strlen(loaded_key)-1] == '\n'){  // удаляем лишний символ переноса строки
                 loaded_key[strlen(loaded_key)-1] = 0;
             }
             if(debug_mode) fprintf_log(filelog,stdout,pmsg(MSG_CMD_LOAD_PWE),loaded_key,sz_user_key);
@@ -134,7 +134,7 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
     // END
     // with encrypt
     if(is_encypt){
-        fflush(stdin);
+        fflush(stdin); // очищаем буфер ввода
         i_count = 0;
         char sz_1str[1024] = {0};
         while(2 == fscanf(fo,"%s %[^\n]\n",ss1,sz_1str)){
@@ -143,14 +143,14 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
             int i_s1 = 0;int i_max_sza = 3;
             char *p = strtok (sz_1str, ";");
             char *sz_array[i_max_sza];int i_s3 = 0;
-            for(;i_s3 < i_max_sza;i_s3++){
+            for(;i_s3 < i_max_sza;i_s3++){ //обнуляем наш массив
                 sz_array[i_s3] = "";
             }
             while (p != NULL)
             {
                 if(i_s1 == i_max_sza) break;
                 sz_array[i_s1++] = p;
-                p = strtok (NULL, ";");
+                p = strtok (NULL, ";"); // разделяем и сохраняем с помощью разделителя l в наш массив
             }
             strcpy(ss2,sz_array[0]);
             strcpy(ss3,sz_array[1]);
@@ -165,17 +165,17 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
                 fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_ERR3));
                 continue;
             }
-            create(ss1,s_t1,ss2,ss3,ss4);
+            create(ss1,s_t1,ss2,ss3,ss4); // вызываем функцию создания записи
             i_count++;
         }
-    }else{
+    }else{ // без шифрования
         i_count = 0;
         fflush(stdin);
         char sz_1str[1024] = {0};
-        while(2 == fscanf(fp,"%s %[^\n]\n",ss1,sz_1str)){
+        while(2 == fscanf(fp,"%s %[^\n]\n",ss1,sz_1str)){  // считываем строки
             int i_s1 = 0;
             if(debug_mode) fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_S),ss1,sz_1str);
-            char *p = strtok (sz_1str, ";");
+            char *p = strtok (sz_1str, ";"); // разделяем строку и сохраняем в массив
             int i_max_sza = 3;
             char *sz_array[i_max_sza];int i_s3 = 0;
             for(;i_s3 < i_max_sza;i_s3++){
@@ -200,7 +200,7 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
                 fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_ERR3));
                 continue;
             }
-            create(ss1,s_t1,ss2,ss3,ss4);
+            create(ss1,s_t1,ss2,ss3,ss4); // пытаемся создать запись
         }
 
     }
@@ -208,7 +208,7 @@ int try_load(struct list_box ** s_t1,char * sz_user_key,const char * filename){ 
     // close files
     fclose(fo);
     fclose(fp);
-    remove(tempfile);
+    remove(tempfile); // удаляем временный файл
     fprintf_log(filelog,stdout,pmsg(MSG_CMD_LOAD_OK),i_count);
     return 0;
 }
@@ -217,15 +217,15 @@ int con_load(struct list_box ** s_t1){ //консольная команда д�
     char sz_user_key[254] = {0},filename[254] = {0};
     char str[CON_STRING];
     fgets (str, CON_STRING-1, stdin);
-    if(sscanf(str,"%253s %253s",filename,sz_user_key) > 1){
+    if(sscanf(str,"%253s %253s",filename,sz_user_key) > 1){ // считываем строку
         try_load(s_t1,filename,sz_user_key);
     }else{
-        if((strlen(sz_user_key) == 0) && (strlen(filename) == 0)){
+        if((strlen(sz_user_key) == 0) && (strlen(filename) == 0)){ // если введено тотлько слово Load
             strcpy(filename,CON_DEF_FILENAME);
             strcpy(sz_user_key,"");
             try_load(s_t1,sz_user_key,filename);
             return 0;
-        }else if(strlen(sz_user_key) == 0){
+        }else if(strlen(sz_user_key) == 0){ // если ключ не введен
             strcpy(sz_user_key,"");
             try_load(s_t1,sz_user_key,filename);
             return 0;
@@ -242,7 +242,7 @@ int con_load(struct list_box ** s_t1){ //консольная команда д�
 int s_loaded_file(struct list_box ** s_temp,int argc, char * argv[]){ //чтение файла расшифровки , дешифровки
     // argv must be not a parameter to be load
     int i_argv = 0;
-    for(;i_argv<argc;i_argv++){
+    for(;i_argv<argc;i_argv++){ // проверяем наличия символа - в аргументах ,
         if(strlen(argv[i_argv]) != 0){
             if(argv[i_argv][0] == '-'){
                 return 0;
@@ -257,7 +257,7 @@ int s_loaded_file(struct list_box ** s_temp,int argc, char * argv[]){ //чтен
         fprintf_log(filelog,stdout,pmsg(MSG_CMD_LOAD_Q));
         char is_true[1];
         scanf("%1c",is_true);
-        fflush(stdin);
+        fflush(stdin); // очищаем поток ввода
         if(is_true[0] == 'y' || is_true[0] == 'Y'){
             fprintf_log(filelog,stdout,"PASSWD>");
             scanf("%253[^\n]\n",current_key);
@@ -269,19 +269,19 @@ int s_loaded_file(struct list_box ** s_temp,int argc, char * argv[]){ //чтен
 	}
 	if(!is_keynotafile){
         FILE * fp;
-        if((fp = fopen(argv[2], "r")) == NULL){
+        if((fp = fopen(argv[2], "r")) == NULL){ // если файл не открылся , прервать работу функции
             fprintf_log(filelog,stderr,pmsg(MSG_CMD_LOAD_FOE));
             fclose(fp);
             return 2;
         }
 
         fgets(current_key, sizeof (current_key), fp);
-        if(current_key[strlen(current_key)-1] == '\n'){
+        if(current_key[strlen(current_key)-1] == '\n'){ // удаляем лишний символ переноса строки
             current_key[strlen(current_key)-1] = 0;
         }
         if(debug_mode) fprintf_log(filelog,stdout,pmsg(MSG_CMD_LOAD_MSG3),current_key);
 	}
 
-    try_load(s_temp,current_key,argv[1]);
+    try_load(s_temp,current_key,argv[1]); // пытаемся загрузить файлы
 	return 0;
 }

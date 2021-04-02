@@ -3,16 +3,17 @@
 
 void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // функция сортировки элементов
     struct list_box * s_check = *s_t1;
-    if(get_countofrec(s_check) == 1){
+    if(get_countofrec(s_check) == 1){ // проверка , если одна запись , то выйти из функции .
         fprintf_log(filelog,stdout,"Can't sort one element ! \n");
         return;
     }
     int is_desc = 0,i_passes = 0;
     //check sz_is_desc
-    if(strcmp_multi_i(sz_is_desc,"1") == 0 || strcmp_multi_i(sz_is_desc,"desc") == 0) is_desc = 1;
+    if(strcmp_multi_i(sz_is_desc,"1") == 0 || strcmp_multi_i(sz_is_desc,"desc") == 0) is_desc = 1; // устанавливаем флаг переменную , если пришел агрумент с desc , что означает "сортировка по убыванию"
     //end
     // check by_name
-    int i_method = 0;
+    int i_method = 0; // стандартно метод сортировки на 0
+    // Устанавливаем метод сортировки , если был передан соответствующий аргумент
     if( (strcmp_multi_i(by_name,"VIN") == 0) || (strcmp_multi_i(by_name,"0") == 0) ) i_method = 0;
     else if( (strcmp_multi_i(by_name,"Fullname") == 0) || (strcmp_multi_i(by_name,"1") == 0 )) i_method = 1;
     else if( (strcmp_multi_i(by_name,"Brand") == 0) || (strcmp_multi_i(by_name,"2") == 0 ))  i_method = 2;
@@ -28,7 +29,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
         struct list_box * min = s_i;
         struct list_box * s_j;
         switch(i_method){
-            case 0 :{
+            case 0 :{ // находим найменший символ ASCII по VIN
                 for(s_j=s_i->next;s_j != NULL;s_j = s_j->next ){
                     int i1 = 0;
                     int l1 = strlen(min->VIN),l2 = strlen(s_j->VIN);
@@ -52,7 +53,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
                 }
                 break;
             }
-            case 1 :{
+            case 1 :{ // находим найменший символ ASCII по ФИО
                 for(s_j=s_i->next;s_j != NULL;s_j = s_j->next ){
                     int i1 = 0;
                     int l1 = strlen(min->Fullname),l2 = strlen(s_j->Fullname);
@@ -76,7 +77,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
                 }
                 break;
             }
-            case 2 :{
+            case 2 :{ // находим найменший символ ASCII по Бренду
                 for(s_j=s_i->next;s_j != NULL;s_j = s_j->next ){
                     int i1 = 0;
                     int l1 = strlen(min->Brand),l2 = strlen(s_j->Brand);
@@ -100,7 +101,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
                 }
                 break;
             }
-            case 3 :{
+            case 3 :{ //находим найменший символ ASCIIпо модели
                 for(s_j=s_i->next;s_j != NULL;s_j = s_j->next ){
                     int i1 = 0;
                     int l1 = strlen(min->Model),l2 = strlen(s_j->Model);
@@ -126,16 +127,17 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
             }
         }
         // we have min->next pointer
+        // создаем временные хранилища для указателей , чтобы потом ими оперировать
         struct list_box * s_temp_i = s_i;
         struct list_box * s_temp_in = s_i;
         struct list_box * s_temp_n = min->next;
         struct list_box * s_temp_p = NULL;
         // ger previous
         if(debug_mode){
-            if(!is_gui) system("cls && clear");
+            if(!is_gui) system("cls && clear"); // очищаем экран
         }
         if(debug_mode) fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_MSG2));
-        if(debug_mode) show_table(s_i);
+        if(debug_mode) show_table(s_i); // отображаем текущий список всех зяписей
         if(debug_mode) fprintf_log(filelog,stdout,"____________________________VIN____________________________\n");
         if(debug_mode) fprintf_log(filelog,stdout,"******************@@@@@@@@@@ %s @@@@@@@@@@******************\n",min->VIN);
         if(debug_mode) fprintf_log(filelog,stdout,"~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %i ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n",i_passes);
@@ -157,7 +159,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
             s_temp_i = s_temp_i->next;
 
         }
-        // print previous element and compare with min
+        // Напечатать предыдущий элемент и сравнить с min
         if(debug_mode) fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_MSG3),s_temp_p->VIN,min->VIN );
         // end
         if(debug_mode){
@@ -178,7 +180,7 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
         s_i = min;
 
         if(!i_passes){
-             s_i_start = min;
+             s_i_start = min; // устанавливаем минимальное значение на пизицио по номеру цикла в начало
         }else{
             struct list_box * s_starttemp = s_i_start;
             int i_star = 0;
@@ -201,37 +203,37 @@ void try_sort(struct list_box ** s_t1,char * by_name,char * sz_is_desc){ // фу
         }
     }
     s_i = s_i_start;
-    *s_t1 = s_i;
+    *s_t1 = s_i; // обновим нажу структуру
 
     if(debug_mode)show_table(*s_t1);
     if(debug_mode) fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_OK));
-    clrstdin();
+    clrstdin(); // очистим буфер ввода
 }
 
 int con_sort(struct list_box ** s_t1){ //консольный вызов метода сорт
     char is_desc[254] = {0},by_name[254] = {0},by[254] = {0};
     char str[CON_SORT_STR];
-    fgets (str, CON_SORT_STR-1, stdin);
-    if(sscanf(str,"%253s %253s %253s[^\n]",by,by_name,is_desc) > 0){
-        if(strcmp_multi_i(by,"by") == 0){
+    fgets (str, CON_SORT_STR-1, stdin); // получаем строку
+    if(sscanf(str,"%253s %253s %253s[^\n]",by,by_name,is_desc) > 0){ // сканирование ввода с клавиатуры
+        if(strcmp_multi_i(by,"by") == 0){ // есди найдено слово by
             if(strlen(by_name) != 0){
                 clrstdin();
                 try_sort(s_t1,by_name,is_desc);
                 return 0;
             }else{
-                fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP));
+                fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP)); // вывести подсказку , то , что имя не введено
                 try_sort(s_t1,"","");
                 clrstdin();
                 return 0;
             }
         }else{
-            fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP1));
+            fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP1)); // ошибка , должно быть только слово "by"
             try_sort(s_t1,"","");
             clrstdin();
             return 0;
         }
     }else{
-        fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP2));
+        fprintf_log(filelog,stdout,pmsg(MSG_CMD_SORT_HELP2)); // стандартно запускается сортировка по VIN
         try_sort(s_t1,"","");
         clrstdin();
         return 0;

@@ -3,11 +3,12 @@
 
     #define WIN_N_LIST_MAX 10
 
-    #define MAX_WINS 3
+    #define MAX_WINS 3 // макс количество окон
+    // привязки для окон
     #define WIN_N_MAIN 0
     #define WIN_N_LIST 1
     #define WIN_N_SETT 2
-
+    // привязки для главного меню
     #define M_EXIT 10
     #define M_INFO 9
     #define M_HELP 8
@@ -25,13 +26,13 @@
 
     #define FILE_DEFAULT "db.bin"
 
-    /* winbox style */
+    /* winbox оформление */
 
-    #define WIN_BSTY 43
-    #define WIN_BSTX 43
-    #define WIN_BSTY2 42
-    #define WIN_BSTX2 42
-    #define WIN_BSTC1 43
+    #define WIN_BSTY 43 // левая вертикальная линия
+    #define WIN_BSTX 43 // правая вертикальная
+    #define WIN_BSTY2 42 // верхняя горизонтальная
+    #define WIN_BSTX2 42 // нижняя горизонтальная
+    #define WIN_BSTC1 43 // углы
     #define WIN_BSTC2 43
     #define WIN_BSTC3 43
     #define WIN_BSTC4 43

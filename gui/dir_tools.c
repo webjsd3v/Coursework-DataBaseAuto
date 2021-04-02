@@ -22,7 +22,7 @@ char * get_fnbynum(int i_fnum){ //узнать название файла по 
 	return ep->d_name;
 }
 
-int get_coffile(DIR *dp){
+int get_coffile(DIR *dp){ // получить количество результатов содержимого в определенной папке
 	int i_fcount = 0;
 	struct dirent *ep;
 	if (dp != NULL)

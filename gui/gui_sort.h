@@ -25,6 +25,10 @@
         #include "../functions/sort.h"
     #endif
 
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
     void guiconf_M_SORT(WINDOW *menu_win,WINDOW *menu_win_pre,int ptype);
     void print_list_sort(WINDOW *menu_win, int highlight2);
 #endif // _GUI_SORT_H

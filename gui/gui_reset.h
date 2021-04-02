@@ -12,5 +12,10 @@
     #ifndef _STRUCT_TOOLS
         #include "../functions/struct_tools.h"
     #endif
+
+    #ifndef _STATIC_LANG_H
+        #include "../static_lang.h"
+    #endif
+
     void guiconf_M_RESET();
 #endif // _GUI_RESET_H

@@ -1,14 +1,14 @@
 #include "static_lang.h"
 
 #define MAX_LANG 2
-#define MAX_RECORDS 512
+#define MAX_RECORDS 1024
 
 typedef struct _LANG_MSG_BOX{
     const char * msg_name;
     int msg_id;
 }LANG_MSG_BOX;
 
-LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = {
+LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = { // структура язычных переводов и их индексов
 
     {
         {"Welcome to test Struct default_list : \n Type help to display tips \n",MSG_CMD_MENU_WELCOME},
@@ -97,7 +97,85 @@ LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = {
         {"Debugging enabled \n",MSG_CMD_STRUCT_TOOLS_DEBUGON},
         {"Just removed from memory : %i items!\n",MSG_CMD_STRUCT_TOOLS_DESTRUCT},
         {"Start logging ... %s\n",MSG_CMD_UNIST_STALOG},
-        {"Using default Logfile.log \n",MSG_CMD_UNIST_MSG}
+        {"Using default Logfile.log \n",MSG_CMD_UNIST_MSG},
+        {"ENTER A NEW VIN :",MSG_GUI_CREATE_MSG1},
+        {"CANCELED!",MSG_GUI_CREATE_CANS},
+        {"ENTER FULLNAME :",MSG_GUI_CREATE_EFN},
+        {"ENTER MODEL :",MSG_GUI_CREATE_EM},
+        {"ENTER BRAND :",MSG_GUI_CREATE_EB},
+        {"YOU ENTERED :",MSG_GUI_CREATE_MSG2},
+        {"IT'S OK? PRESS Y(YES)/N(NO) :",MSG_GUI_CREATE_MSG3},
+        {"CREATED!",MSG_GUI_CREATE_OK},
+        {"CREATE ELEMENT",MSG_GUI_CREATE_MSG4},
+        {"WANA EXIT ? PRESS <-",MSG_GUI_CREATE_MSG5},
+        {"PRESS ANY KEY TO CONTINUE",MSG_GUI_CREATE_MSG6},
+        {"DEBUG is ON ... \n",MSG_GUI_DEBUG_ON},
+        {"DEBUG is OFF ... \n",MSG_GUI_DEBUG_OFF},
+        {"WANT TO CHANGE FULLNAME ? Y/N ",MSG_GUI_EDIT_EFN},
+        {"New FN->",MSG_GUI_EDIT_NFN},
+        {"CHANGED to '%s' !",MSG_GUI_EDIT_MSG1},
+        {"WANT TO CHANGE MODEL ? Y/N ",MSG_GUI_EDIT_EM},
+        {"New M->",MSG_GUI_EDIT_NM},
+        {"New B->",MSG_GUI_EDIT_NB},
+        {"WANT TO CHANGE BRAND ? Y/N ",MSG_GUI_EDIT_NBB},
+        {"EDIT ELEMENT ",MSG_GUI_EDIT_EE},
+        {"INFO",MSG_GUI_HELPINFO_MSG1},
+        {"HELP",MSG_GUI_HELPINFO_MSG2},
+        {"Element deleted successful!",MSG_GUI_LIST_DEL},
+        {"CURRENT ELEMENT",MSG_GUI_LISTINFO_MSG1},
+        {"Name : %s",MSG_GUI_LISTINFO_NAME},
+        {"Surname : %s",MSG_GUI_LISTINFO_SUR},
+        {"Middle name : %s",MSG_GUI_LISTINFO_NAME2},
+        {"Brand : %s",MSG_GUI_LISTINFO_BRA},
+        {"Model : %s",MSG_GUI_LISTINFO_MOD},
+        {"LIST",MSG_GUI_LISTINFO_LI},
+        {"BROWSER",MSG_GUI_LOAD_MSG1},
+        {"LOADED %s OK! PRESS ENTER!",MSG_GUI_LOAD_MSG2},
+        {"LOAD METHOD",MSG_GUI_LOAD_MSG3},
+        {"SELECTED : '%s'!",MSG_GUI_LOAD_MSG4},
+        {"LOAD THIS FILE Y/N ?",MSG_GUI_LOAD_MSG5},
+        {"WANT TO ENTER PASSWORD Y/N ?",MSG_GUI_LOAD_MSG6},
+        {"ENTER PASSWORD : ",MSG_GUI_LOAD_MSG7},
+        {"OK . LOADING...",MSG_GUI_LOAD_MSG8},
+        {"ERR LOADING :( PRESS ANY KEY",MSG_GUI_LOAD_MSG9},
+        {"SUCCESS! PRESS ANY KEY",MSG_GUI_LOAD_MSG10},
+        {"All elements are deleted ! Total %i",MSG_GUI_RESET},
+        {"SAVED %s OK! PRESS ENTER!",MSG_GUI_SAVE_MSG1},
+        {"CAN'T SAVE NOTHING! PRESS ENTER!",MSG_GUI_SAVE_MSG2},
+        {"ENTER NEW FILENAME : ",MSG_GUI_SAVE_MSG3},
+        {"Canceled ... PRESS ANY KEY",MSG_GUI_SAVE_MSG4},
+        {"FILENAME : ",MSG_GUI_SAVE_MSG5},
+        {"%s IS OK ? Y/N ",MSG_GUI_SAVE_MSG6},
+        {"SAVED %s OK! PRESS ENTER!",MSG_GUI_SAVE_MSG7},
+        {"ENTER NEW FILENAME : ",MSG_GUI_SAVE_MSG8},
+        {"ENTER PASSWORD : ",MSG_GUI_SAVE_EP},
+        {"SAVING ? Y/N ",MSG_GUI_SAVE_SA},
+        {"SAVE METHOD",MSG_GUI_SAVE_SAA},
+        {"Saved %s OK!",MSG_GUI_SAVE_MSG9},
+        {"SEARCH METHOD",MSG_GUI_SEARCH_PRE},
+        {"ENTER %s : ",MSG_GUI_SEARCH_MSG1},
+        {"[Beta]Found : [%i]",MSG_GUI_SEARCH_MSG2},
+        {"Terminal not supported colors :( \n",MSG_GUI_SETT},
+        {"Charcter pressed is = %3d Hopefully it can be printed as '%c'",MSG_SYSMSG_MSG1},
+        {"SORT METHOD",MSG_SORT_MSG},
+        {"Sort complete!",MSG_SORT_OK},
+        {"DEBUG [choice_list=%i] , [i_count_l=%i] Name of VIN = %s ",MSG_GUI_TOOLS_MSG1},
+        {"Use arrow keys to go up and down, Press enter to select a choice . F10 to quick EXIT",MSG_GUI_MENU_MSG1},
+        {"The panel was hidden!",MSG_GUI_MENU_HID},
+        {"The panel was on!",MSG_GUI_MENU_SHOW},
+        {"MAIN MENU",MSG_GUI_MENU_MAIN},
+        {"No entries!",MSG_GUI_MENU_NOENT},
+        {"Use arrow keys to go up and down, Press enter to select a choice . F10 to quick EXIT",MSG_GUI_MENU_MSG2},
+        {"You chose choice %d with choice string %s\n",MSG_GUI_MENU_MSG3},
+        {"Welcome",MSG_MENU_MSG},
+        {"Menu>",MSG_MENU_MSG2},
+        {"Not found arg",MSG_MENU_MSG3},
+        {"Total : %i",MSG_MENU_MSG4},
+        {"Unknown cmd ...",MSG_MENU_MSG5},
+        {"Bye !",MSG_MENU_MSG6}
+
+
+
 
 
 
@@ -113,7 +191,7 @@ LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = {
         {"|   *** VIN ***    |    *** Полное имя  ***  |   *** Модель ***  |   *** Бренд ***    |\n",MSG_CMD_DISPLAY_HEAD},
         {"Нет записей! \n",MSG_CMD_DISPLAY_NOENT},
         {"Всего элементов : %i\n",MSG_CMD_DISPLAY_TOTAL},
-        {"Пожалуйста, напишите: <Полное имя> <Бренд> <Модель> \n",MSG_CMD_CREATE_HELP},
+        {"Пожалуйста, напишите: <Полное имя> ; <Бренд> ; <Модель> \n",MSG_CMD_CREATE_HELP},
         {"Ошибка ввода,  вы не ввели <Полное имя>; <Бренд>; <Модель>; \n",MSG_CMD_CREATE_ERR1},
         {"Ошибка ввода,  вы не ввели <Бренд>; <Модель>; \n",MSG_CMD_CREATE_ERR2},
         {"Ошибка ввода,  вы не ввели <Модель>; \n",MSG_CMD_CREATE_ERR3},
@@ -133,12 +211,12 @@ LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = {
         {"Нет записей! Нечего редактировать \n",MSG_CMD_EDIT_ERR1},
         {"Вы не ввели фильтр после слова BY \n",MSG_CMD_EDIT_ERR2},
         {"Мы редактируем только текущую строку! \n",MSG_CMD_EDIT_MSG1},
-        {"Было Fullname : %s\n",MSG_CMD_EDIT_BF},
-        {"Стало Fullname : %s\n OK! \n",MSG_CMD_EDIT_AF},
-        {"Было Brand : %s\n",MSG_CMD_EDIT_BB},
-        {"Стало Brand : %s\n OK! \n",MSG_CMD_EDIT_AB},
-        {"Было Model : %s\n",MSG_CMD_EDIT_BM},
-        {"Стало Model : %s\n OK! \n",MSG_CMD_EDIT_AM},
+        {"Было ФИО : %s\n",MSG_CMD_EDIT_BF},
+        {"Стало ФИО : %s\n OK! \n",MSG_CMD_EDIT_AF},
+        {"Был Бренд : %s\n",MSG_CMD_EDIT_BB},
+        {"Стал Бренд : %s\n OK! \n",MSG_CMD_EDIT_AB},
+        {"Была Модель : %s\n",MSG_CMD_EDIT_BM},
+        {"Стала Модель : %s\n OK! \n",MSG_CMD_EDIT_AM},
         {"Неизвестный символ или вы не можете редактировать VIN \n",MSG_CMD_EDIT_ERR3},
         {"Успех!\n",MSG_CMD_EDIT_OK},
         {"<Ошибка ввода> \n ",MSG_CMD_EDIT_CON_ERR},
@@ -190,13 +268,95 @@ LANG_MSG_BOX lbox[MAX_LANG][MAX_RECORDS] = {
         {"Отладка включена \n",MSG_CMD_STRUCT_TOOLS_DEBUGON},
          {"Удалено из памяти : %i записей!\n",MSG_CMD_STRUCT_TOOLS_DESTRUCT},
          {"Начало логирования ... %s\n",MSG_CMD_UNIST_STALOG},
-         {"Исползуем Logfile.log \n",MSG_CMD_UNIST_MSG}
+         {"Исползуем Logfile.log \n",MSG_CMD_UNIST_MSG},
+        {"ВВЕДИТЕ НОВЫЙ VIN :",MSG_GUI_CREATE_MSG1},
+        {"ОТМЕНЕНО!",MSG_GUI_CREATE_CANS},
+        {"ВВЕДИТЕ ИМЯ :",MSG_GUI_CREATE_EFN},
+        {"ВВЕДИТЕ МОДЕЛЬ :",MSG_GUI_CREATE_EM},
+        {"ВВЕДИТЕ БРЕНД :",MSG_GUI_CREATE_EB},
+        {"ВЫ ВВЕЛИ :",MSG_GUI_CREATE_MSG2},
+        {"ВСЕ ХОРОШО? НАЖМИТЕ Y (ДА) / N (НЕТ)",MSG_GUI_CREATE_MSG3},
+        {"СОЗДАНО!",MSG_GUI_CREATE_OK},
+        {"СОЗДАТЬ ЗАПИСЬ",MSG_GUI_CREATE_MSG4},
+        {"ХОТИТЕ ВЫЙТИ ? НАЖМИТЕ <-",MSG_GUI_CREATE_MSG5},
+        {"НАЖ. ЛЮБ. КЛ. ДЛЯ ПРОДОЛЖЕНИЯ",MSG_GUI_CREATE_MSG6},
+        {"РЕЖИМ ОТЛАДКИ ВЫКЛЮЧЕН \n",MSG_GUI_DEBUG_ON},
+        {"РЕЖИМ ОТЛАДКИ ВКЛЮЧЕН \n",MSG_GUI_DEBUG_OFF},
+        {"ХОТИТЕ ИЗМЕНИТЬ ИФО ? Y/N ",MSG_GUI_EDIT_EFN},
+        {"->",MSG_GUI_EDIT_NFN},
+        {"ИЗМЕНЕНО на '%s' !",MSG_GUI_EDIT_MSG1},
+        {"ХОТИТЕ ИЗМЕНИТЬ МОДЕЛЬ? Y/N ",MSG_GUI_EDIT_EM},
+        {"->",MSG_GUI_EDIT_NM},
+        {"->",MSG_GUI_EDIT_NB},
+        {"ХОТИТЕ ИЗМЕНИТЬ БРЕНД? Y / N",MSG_GUI_EDIT_NBB},
+        {"ИЗМЕНИТЬ ЗАПИСЬ",MSG_GUI_EDIT_EE},
+        {"ИНФО",MSG_GUI_HELPINFO_MSG1},
+        {"СПРАВКА",MSG_GUI_HELPINFO_MSG2},
+        {"Элемент удален успешно!",MSG_GUI_LIST_DEL},
+        {"ТЕКУЩАЯ ЗАПИСЬ",MSG_GUI_LISTINFO_MSG1},
+        {"ИМЯ : %s",MSG_GUI_LISTINFO_NAME},
+        {"ФАМИЛИЯ : %s",MSG_GUI_LISTINFO_SUR},
+        {"ОТЧЕСТВО : %s",MSG_GUI_LISTINFO_NAME2},
+        {"БРЕНД: %s",MSG_GUI_LISTINFO_BRA},
+        {"МОДЕЛЬ: %s",MSG_GUI_LISTINFO_MOD},
+        {"СПИСОК",MSG_GUI_LISTINFO_LI},
+        {"ОБОЗРЕВАТЕЛЬ",MSG_GUI_LOAD_MSG1},
+        {"ЗАГРУЖЕНО %s OK! НАЖМИТЕ ENTER!",MSG_GUI_LOAD_MSG2},
+        {"РАСШИРЕННАЯ ЗАГРУЗКА",MSG_GUI_LOAD_MSG3},
+        {"ВЫБРАНО : '%s'!",MSG_GUI_LOAD_MSG4},
+        {"ЗАГРУЗИТЬ ЭТОТ ФАЙЛ Y/N ?",MSG_GUI_LOAD_MSG5},
+        {"ХОТИТЕ ВВЕСТИ ПАРОЛЬ Y/N ?",MSG_GUI_LOAD_MSG6},
+        {"ВВЕДИТЕ ПАРОЛЬ: ",MSG_GUI_LOAD_MSG7},
+        {"ОК . ЗАГРУЗКА ...",MSG_GUI_LOAD_MSG8},
+        {"ОШИБКА :( НАЖМИТЕ ЛЮБУЮ КЛАВИШУ",MSG_GUI_LOAD_MSG9},
+        {"УСПЕХ! НАЖМИТЕ ЛЮБУЮ КЛАВИШУ",MSG_GUI_LOAD_MSG10},
+        {"Все записи удалены! Всего %i",MSG_GUI_RESET},
+        {"Сохранено %s OK! НАЖ. ВВОД!",MSG_GUI_SAVE_MSG1},
+        {"НЕЧЕГО СОХРАНЯТЬ! НАЖМИТЕ ВВОД!",MSG_GUI_SAVE_MSG2},
+        {"ВВЕДИТЕ НОВОЕ ИМЯ : ",MSG_GUI_SAVE_MSG3},
+        {"Отменен . НАЖМИТЕ ЛЮБУЮ КНОПКУ",MSG_GUI_SAVE_MSG4},
+        {"ИМЯ ФАЙЛА :",MSG_GUI_SAVE_MSG5},
+        {"%s ВСЕ OK ? Y/N ",MSG_GUI_SAVE_MSG6},
+        {"СОХР. %s .НАЖ. ВВОД!",MSG_GUI_SAVE_MSG7},
+        {"ВВЕДИТЕ НОВОЕ ИМЯ : ",MSG_GUI_SAVE_MSG8},
+        {"ВВЕДИТЕ ПАРОЛЬ : ",MSG_GUI_SAVE_EP},
+        {"СОХРАНИТЬ ? Y/N ",MSG_GUI_SAVE_SA},
+        {"СОХРАНИТЬ КАК",MSG_GUI_SAVE_SAA},
+        {"Сохранено %s OK!",MSG_GUI_SAVE_MSG9},
+        {"ПОИСК ЗАПИСЕЙ",MSG_GUI_SEARCH_PRE},
+        {"ВВОД %s : ",MSG_GUI_SEARCH_MSG1},
+        {"[Бета]Найдено : [%i]",MSG_GUI_SEARCH_MSG2},
+        {"Терминал не поддерживает цвета :( \n",MSG_GUI_SETT},
+        {"Вы нажали = %3d Он может быть напечатан как '%c'",MSG_SYSMSG_MSG1},
+        {"СОРТИРОВКА ЗАПИСЕЙ",MSG_SORT_MSG},
+        {"Сортировка завершена!",MSG_SORT_OK},
+        {"Отладка [choice_list=%i] , [i_count_l=%i] Название VIN = %s ",MSG_GUI_TOOLS_MSG1},
+        {"Используйте клавиши вверх и вниз, Нажмите ввод , чтобы выбрать пункт . F10 или ESC - быстрый выход",MSG_GUI_MENU_MSG1},
+        {"Панель скрыта!",MSG_GUI_MENU_HID},
+        {"Панель включена!",MSG_GUI_MENU_SHOW},
+        {"ГЛАВНОЕ МЕНЮ",MSG_GUI_MENU_MAIN},
+        {"Нет записей!",MSG_GUI_MENU_NOENT},
+        {"Используйте клавиши вверх и вниз. ВВОД, чтобы выбрать пункт. F10 - быстрый выход",MSG_GUI_MENU_MSG2},
+        {"Вы выбрали %d , строка %s\n",MSG_GUI_MENU_MSG3},
+        {"Добро пожаловать!\n",MSG_MENU_MSG},
+        {"Меню>",MSG_MENU_MSG2},
+        {"Аргумент не найден \n",MSG_MENU_MSG3},
+        {"Всего : %i \n",MSG_MENU_MSG4},
+        {"Неизвестная команда ... \n",MSG_MENU_MSG5},
+        {"Пока !",MSG_MENU_MSG6}
+
+
+
+
+
+
+
 
     }
 
 };
 
-int change_lang(){
+int change_lang(){ // функция смены языка программы
     LANG_MSG_BOX * current_lang = lbox[short_lang_data];
     if(current_lang == lbox[EN_EN]){
         current_lang = lbox[EN_RU];
@@ -208,7 +368,7 @@ int change_lang(){
     return 0;
 }
 
-const char * pmsg(int id_msg){
+const char * pmsg(int id_msg){ // функция возвращает по ид строку перевода в определенном языке
     LANG_MSG_BOX * current_lang = lbox[short_lang_data];
     return current_lang[id_msg].msg_name;
 }

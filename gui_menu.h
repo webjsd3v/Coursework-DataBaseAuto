@@ -1,11 +1,16 @@
 
 extern char help_data[];
+extern char help_data_rus[];
 extern char info_data[];
+extern char info_data_rus[];
 extern int n_help_data;
+extern int n_help_data_rus;
 extern int n_info_data;
+extern int n_info_data_rus;
+
 void guiconf_M_HELPINFO();
-#if DEFAULT_LANG == 1
-char *choices[] = {
+
+char *choices_rus[] = {
 			"1.  Создать или Редак.запись",
 			"2.  Режим отладки Вкл. Выкл.",
 			"3.  Сбросить все данные",
@@ -17,7 +22,7 @@ char *choices[] = {
 			"9.  Инфо",
 			"10. Выход в консольное меню",
 };
-#else
+
 char *choices[] = {
 			"1.  Create , edit , delete item",
 			"2.  Debug ON OFF",
@@ -30,11 +35,13 @@ char *choices[] = {
 			"9.  Info",
 			"10. Exit",
 };
-#endif // DEFAULT_LANG
+
 
 
 
 int n_choices = sizeof(choices) / sizeof(char *); // трюк плдучения количества записей
+int n_choices_rus = sizeof(choices_rus) / sizeof(char *); // трюк плдучения количества записей
+
 void print_menu(WINDOW *menu_win, int highlight);
 int menu_choice(int choice);
 void print_menu(WINDOW *menu_win, int highlight) // главное меню
@@ -44,28 +51,43 @@ void print_menu(WINDOW *menu_win, int highlight) // главное меню
 	x = 2; // координаты сдвига от окна
 	y = (y-n_choices)/2;; // координаты сдвига от окна
 	wborder(menu_win,WIN_BSTY,WIN_BSTX,WIN_BSTY2,WIN_BSTX2,WIN_BSTC1,WIN_BSTC2,WIN_BSTC3,WIN_BSTC4);
-	mvwprintw(menu_win, 5, (x_max-strlen("MAIN MENU"))/2, "MAIN MENU");
-	for(i = 0; i < n_choices; ++i)
-	{	if(highlight == i + 1) /* High light the present choice */
-		{	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) ); //включить доп. эффект для текста
-			mvwprintw(menu_win, y, x, "%s", choices[i]);
-			wattroff(menu_win, A_REVERSE | COLOR_PAIR(1)); //выкл. эффект
-		}
-		else
-			mvwprintw(menu_win, y, x, "%s", choices[i]);
-		++y;
+	mvwprintw(menu_win, 5, (x_max-strlen(pmsg(MSG_GUI_MENU_MAIN)))/2, pmsg(MSG_GUI_MENU_MAIN));
+
+	switch(short_lang_data){
+        case 1:
+            for(i = 0; i < n_choices; ++i)
+            {	if(highlight == i + 1) /* High light the present choice */
+                {	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) ); //включить доп. эффект для текста
+                    mvwprintw(menu_win, y, x, "%s", choices_rus[i]);
+                    wattroff(menu_win, A_REVERSE | COLOR_PAIR(1)); //выкл. эффект
+                }
+                else
+                    mvwprintw(menu_win, y, x, "%s", choices_rus[i]);
+                ++y;
+            }
+
+            mvwprintw(menu_win, 19, 2, "---------- Подсказки ----------");
+            mvwprintw(menu_win, 20 + 1, 3, "-> or ENTER // переключатели");
+            mvwprintw(menu_win, 20 + 2, 3, "h or H      // скрыть панель");
+            mvwprintw(menu_win, 20 + 3, 3, "F10         // выход ");
+            break;
+        default :
+            for(i = 0; i < n_choices; ++i)
+            {	if(highlight == i + 1) /* High light the present choice */
+                {	wattron(menu_win, A_REVERSE | COLOR_PAIR(1) ); //включить доп. эффект для текста
+                    mvwprintw(menu_win, y, x, "%s", choices[i]);
+                    wattroff(menu_win, A_REVERSE | COLOR_PAIR(1)); //выкл. эффект
+                }
+                else
+                    mvwprintw(menu_win, y, x, "%s", choices[i]);
+                ++y;
+            }
+
+            mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
+            mvwprintw(menu_win, 20 + 1, 3, "-> or ENTER // menu selector");
+            mvwprintw(menu_win, 20 + 2, 3, "h or H      // hide panel l");
+            mvwprintw(menu_win, 20 + 3, 3, "F10         // exit from menu");
 	}
-	#if DEFAULT_LANG == 1
-        mvwprintw(menu_win, 19, 2, "---------- Подсказки ----------");
-        mvwprintw(menu_win, 20 + 1, 3, "-> or ENTER // переключатели");
-        mvwprintw(menu_win, 20 + 2, 3, "h or H      // скрыть панель");
-        mvwprintw(menu_win, 20 + 3, 3, "F10         // выход ");
-	#else
-        mvwprintw(menu_win, 19, 2, "---------- FAST HELP ----------");
-        mvwprintw(menu_win, 20 + 1, 3, "-> or ENTER // menu selector");
-        mvwprintw(menu_win, 20 + 2, 3, "h or H      // hide panel l");
-        mvwprintw(menu_win, 20 + 3, 3, "F10         // exit from menu");
-	#endif // DEFAULT_LANG
 
 	wrefresh(menu_win);
 }
@@ -75,7 +97,7 @@ int menu_choice(int choice){ // селектор функция для главного меню
         switch(choice){
             case M_LIST : {
                 if(get_countofrec(default_list) == 0){
-                    sys_gui_msg("No entries!");
+                    sys_gui_msg(pmsg(MSG_GUI_MENU_NOENT));
                 }
                 guiconf_M_LIST();
                 return choice;
@@ -105,11 +127,24 @@ int menu_choice(int choice){ // селектор функция для главного меню
                 return choice;
             }
             case M_HELP :{
-                guiconf_M_HELPINFO(help_data,n_help_data);
+                switch(short_lang_data){
+                    case 1 :
+                        guiconf_M_HELPINFO(help_data_rus,n_help_data_rus,pmsg(MSG_GUI_HELPINFO_MSG2));
+                        break;
+                    default :
+                        guiconf_M_HELPINFO(help_data,n_help_data,pmsg(MSG_GUI_HELPINFO_MSG2));
+
+                }
                 return choice;
             }
             case M_INFO :{
-                guiconf_M_HELPINFO(info_data,n_info_data);
+                switch(short_lang_data){
+                    case 1 :
+                        guiconf_M_HELPINFO(info_data_rus,n_info_data_rus,pmsg(MSG_GUI_HELPINFO_MSG1));
+                        break;
+                    default :
+                        guiconf_M_HELPINFO(info_data,n_info_data,pmsg(MSG_GUI_HELPINFO_MSG1));
+                }
                 return choice;
             }
             case M_EXIT : return choice;
@@ -137,7 +172,7 @@ int gui_menu()
     /* END */
     print_menu(menu_wins[WIN_N_MAIN], highlight);
 	keypad(menu_wins[WIN_N_MAIN], TRUE); // включить стрелочки на клавиатуре
-    mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice . F10 to quick EXIT");refresh();
+    mvprintw(0, 0, pmsg(MSG_GUI_MENU_MSG1));refresh();
 
 	int i_winc = 0;
 	refresh();
@@ -167,13 +202,13 @@ int gui_menu()
 				if(temp->hide == FALSE)
 				{
                     switch_panels(WIN_N_LIST);
-					mvprintw(27, 5, "The panel was hidden!");
+					mvprintw(27, 5, pmsg(MSG_GUI_MENU_HID));
 				}
 				else
 				{
 				    switch_panels(WIN_N_LIST);
 					mvprintw(27, 5, "                     ");
-					mvprintw(27, 5, "The panel was on!");
+					mvprintw(27, 5, pmsg(MSG_GUI_MENU_SHOW));
 				}
 				break;
 
@@ -198,9 +233,10 @@ int gui_menu()
 		if(choice) choice = menu_choice(choice);
         if(choice == M_EXIT) break;
         else choice = 0;
-         mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice . F10 to quick EXIT");refresh();
+         move(0,0);clrtoeol();
+         mvprintw(0, 0, pmsg(MSG_GUI_MENU_MSG2));refresh();
     }
-	mvprintw(23, 0, "You chose choice %d with choice string %s\n", choice, choices[choice - 1]);
+	mvprintw(23, 0, pmsg(MSG_GUI_MENU_MSG3), choice, choices[choice - 1]);
 	clrtoeol();
 	refresh();
     // уничтожение созданных панелей и окон

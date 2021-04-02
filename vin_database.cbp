@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="vin_database" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/vin_database" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="D:/bin/pdcurs34/win32" />
+					<Add directory="D:/bin/pdcurs34" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="D:/bin/pdcurs34/win32" />
+					<Add directory="D:/bin/pdcurs34" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="D:/bin/pdcurs34/win32/panel.a" />
+					<Add library="D:/bin/pdcurs34/win32/pdcurses.a" />
+					<Add directory="D:/bin/pdcurs34/win32" />
+					<Add directory="D:/bin/pdcurs34" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/vin_database" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="extern_va.h" />
+		<Unit filename="functions/con_display.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/con_display.h" />
+		<Unit filename="functions/con_help.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/con_help.h" />
+		<Unit filename="functions/create.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/create.h" />
+		<Unit filename="functions/delete.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/delete.h" />
+		<Unit filename="functions/edit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/edit.h" />
+		<Unit filename="functions/functions.h" />
+		<Unit filename="functions/load.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/load.h" />
+		<Unit filename="functions/menu.h" />
+		<Unit filename="functions/misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/misc.h" />
+		<Unit filename="functions/printlog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/printlog.h" />
+		<Unit filename="functions/save.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/save.h" />
+		<Unit filename="functions/search.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/search.h" />
+		<Unit filename="functions/sort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/sort.h" />
+		<Unit filename="functions/struct_tools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/struct_tools.h" />
+		<Unit filename="functions/unist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/unist.h" />
+		<Unit filename="global_va.h" />
+		<Unit filename="gui/dir_tools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/dir_tools.h" />
+		<Unit filename="gui/gui_create.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_create.h" />
+		<Unit filename="gui/gui_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_debug.h" />
+		<Unit filename="gui/gui_edit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_edit.h" />
+		<Unit filename="gui/gui_functions.h" />
+		<Unit filename="gui/gui_help.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_help.h" />
+		<Unit filename="gui/gui_list.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_list.h" />
+		<Unit filename="gui/gui_load.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_load.h" />
+		<Unit filename="gui/gui_reset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_reset.h" />
+		<Unit filename="gui/gui_save.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_save.h" />
+		<Unit filename="gui/gui_search.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_search.h" />
+		<Unit filename="gui/gui_settings.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_settings.h" />
+		<Unit filename="gui/gui_sort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_sort.h" />
+		<Unit filename="gui/gui_sysmsg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_sysmsg.h" />
+		<Unit filename="gui/gui_tools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui/gui_tools.h" />
+		<Unit filename="gui_menu.h" />
+		<Unit filename="gui_structs.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main_struct.h" />
+		<Unit filename="static_lang.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="static_lang.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

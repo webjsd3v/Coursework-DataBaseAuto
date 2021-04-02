@@ -46,8 +46,8 @@
         "* 11. edit       | Редактирование элемента . Синтаксис <нов. данные> ; <колонка> by <колонка> <данные>*\n",
         "* 12. load       | Загрузить базу. Синтаксис <имя файла.формат> <ключ>                                *\n",
         "* 12. menu иди m | Включить графический режим                                                         *\n",
-        "* 12. lang       | Change language EN,RU(Beta)                                                        *\n",
-        "* 13. Exit       | quit from program                                                                  *\n",
+        "* 12. lang       | Сменить язык EN,RU(Beta)                                                           *\n",
+        "* 13. Exit       | Выход из программы                                                                 *\n",
         "*******************************************************************************************************\n"
     };
     const char * sz_con_help_rus[] = {
@@ -68,13 +68,13 @@
 	void terminal_help(){ // вывод справки с консоси через параметр -h --help
         int i;
         puts("\n");
-        switch(short_lang_data){
+        switch(short_lang_data){ // переключаемся между языками
             case 1 : {
-                for(i = 0 ; i < sz_con_help_max_rus ;i++) fprintf_log(filelog,stdout,"%s",sz_con_help_rus[i]);
+                for(i = 0 ; i < sz_con_help_max_rus ;i++) fprintf_log(filelog,stdout,"%s",sz_con_help_rus[i]); // перебираем массив
                 break;
             }
             default:
-                for(i = 0 ; i < sz_con_help_max ;i++) fprintf_log(filelog,stdout,"%s",sz_con_help[i]);
+                for(i = 0 ; i < sz_con_help_max ;i++) fprintf_log(filelog,stdout,"%s",sz_con_help[i]); // перебираем массив
         }
 
     }
@@ -82,12 +82,12 @@
     void con_help(){ // вывод справки в программе коммандой help
         int i;
         puts("\n");
-        switch(short_lang_data){
+        switch(short_lang_data){ // переключаемся между языками
             case 1 : {
-                for(i = 0 ; i < sz_help_rus_max ;i++) fprintf_log(filelog,stdout,"%s",sz_help_rus[i]);
+                for(i = 0 ; i < sz_help_rus_max ;i++) fprintf_log(filelog,stdout,"%s",sz_help_rus[i]);  // перебираем массив
                 break;
             }
             default :
-                for(i = 0 ; i < sz_help_max ;i++) fprintf_log(filelog,stdout,"%s",sz_help[i]);
+                for(i = 0 ; i < sz_help_max ;i++) fprintf_log(filelog,stdout,"%s",sz_help[i]); // перебираем массив
         }
     }
